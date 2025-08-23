@@ -1,0 +1,53 @@
+services:
+    # Servicio para nuestra aplicación Laravel (PHP-FPM)
+    app:
+        build:
+            context: . # Busca el Dockerfile en la carpeta actual
+            dockerfile: Dockerfile
+        image: laravel-app-image # Nombre de la imagen que crearemos
+        restart: unless-stopped # Se reinicia si se detiene inesperadamente
+        volumes:
+            - .:/var/www/html # Conecta la carpeta de tu proyecto con la del contenedor
+        networks:
+            - laravel-network # Para que se comunique con otros servicios
+        depends_on:
+            - db # Asegura que la base de datos se inicie antes que la app
+
+    # Servicio para el servidor web (Nginx)
+    nginx:
+        image: nginx:stable-alpine # Usamos la imagen oficial de Nginx (versión ligera)
+        restart: unless-stopped
+        ports:
+            - "8000:80" # Mapea el puerto 8000 de tu PC al puerto 80 del contenedor
+        volumes:
+            - .:/var/www/html # Conecta el código Laravel
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf # Nuestra configuración de Nginx
+        networks:
+            - laravel-network
+        depends_on:
+            - app # Nginx necesita que PHP (app) esté listo
+
+    # Servicio para la base de datos (MySQL)
+    db:
+        image: mysql:8.0 # Usamos la imagen oficial de MySQL 8.0
+        restart: unless-stopped
+        environment: # Variables de entorno para MySQL
+            MYSQL_DATABASE: laravel_db # Nombre de la base de datos
+            MYSQL_ROOT_PASSWORD: root # Contraseña del usuario root
+            MYSQL_PASSWORD: password # Contraseña para el usuario 'laravel'
+            MYSQL_USER: laravel # Nombre del usuario para Laravel
+        volumes:
+            - dbdata:/var/lib/mysql # Guarda los datos de la DB para que no se pierdan
+        networks:
+            - laravel-network
+        ports:
+            - "3306:3306"
+
+# Volúmenes para persistir datos
+volumes:
+    dbdata: # Aquí se guardarán los datos de MySQL
+
+# Red para que los servicios se comuniquen
+networks:
+    laravel-network:
+        driver: bridge # Tipo de red
