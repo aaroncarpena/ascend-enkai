@@ -44,7 +44,6 @@ const Nav = () => {
                 </a>
               </li>
               <li>
-                <li>
                 <Link 
                   to="/deportes"
                   className="block py-2 px-3 text-green-400 rounded-full hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:hover:bg-green-400 md:p-0"
@@ -54,7 +53,6 @@ const Nav = () => {
 
                   
                 </Link>
-              </li>
               </li>
               <a className="block hover:text-black hover:bg-green-400 py-2 px-3 text-green-400 rounded-full hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:hover:bg-green-400 md:p-0">
                 Amigos

@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/users/{id}', [UserApiController::class, 'update']);
     Route::delete('/users/{id}', [UserApiController::class, 'destroy']);
 
+
     Route::get('/deportes', [DeporteApiController::class, 'index']);
     Route::get('/deportes/{id}', [DeporteApiController::class, 'show']);
     Route::post('/deportes', [DeporteApiController::class, 'store']);

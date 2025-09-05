@@ -14,7 +14,7 @@ class LoginUserApiRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:users,email',
+            'login' => 'required|string',
             'password' => 'required|string|min:6',
         ];
     }

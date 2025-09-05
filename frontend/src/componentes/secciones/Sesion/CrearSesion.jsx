@@ -3,7 +3,8 @@ import useSesion from "../../../hooks/UseSesion";
 import ErrorSesion from "../Errores/ErrorSesion";
 
 const CrearSesion = () => {
-  const { crearSesion, actualizarSesion, errorUsuario } = useSesion();
+  
+  const { crearCuenta, actualizarSesion, errorUsuario } = useSesion();
 
   return (
     <>
@@ -60,6 +61,24 @@ const CrearSesion = () => {
 
             <div className="relative z-0 w-full mb-5 group">
               <input
+                type="text"
+                id="telefono"
+                name="telefono"
+                className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-green-400 appearance-none focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                placeholder=" "
+                required
+                onChange={(e) => actualizarSesion(e)}
+              />
+              <label
+                htmlFor="telefono"
+                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Teléfono
+              </label>
+            </div>
+
+            <div className="relative z-0 w-full mb-5 group">
+              <input
                 type="password"
                 id="password"
                 name="password"
@@ -76,8 +95,27 @@ const CrearSesion = () => {
               </label>
             </div>
 
+            
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="password"
+                id="password_confirmation"
+                name="password_confirmation"
+                className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-green-400 appearance-none focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                placeholder=" "
+                required
+                onChange={(e) => actualizarSesion(e)}
+              />
+              <label
+                htmlFor="password_confirmation"
+                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Confirmar Contraseña
+              </label>
+            </div>
+
             <button
-              onClick={crearSesion}
+              onClick={crearCuenta}
               className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg transition"
             >
               Registrarse
