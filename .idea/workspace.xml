@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Parte de bakend">
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/AuthApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/AuthApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/LoginUserApiRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/LoginUserApiRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/welcome.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componentes/organizativos/estructura/Nav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componentes/organizativos/estructura/Nav.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componentes/secciones/Sesion/CrearSesion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componentes/secciones/Sesion/CrearSesion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componentes/secciones/Sesion/IniciarSesion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componentes/secciones/Sesion/IniciarSesion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/contextos/ProveedorSesion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contextos/ProveedorSesion.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Parte de bakend" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -354,7 +343,7 @@
       <workItem from="1756828600907" duration="5212000" />
       <workItem from="1756912932049" duration="451000" />
       <workItem from="1756979358947" duration="4720000" />
-      <workItem from="1757089512734" duration="1483000" />
+      <workItem from="1757089512734" duration="2021000" />
     </task>
     <task id="LOCAL-00001" summary="Parte de bakend">
       <option name="closed" value="true" />
@@ -380,7 +369,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755695641987</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Parte de bakend">
+      <option name="closed" value="true" />
+      <created>1757091524701</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1757091524701</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
