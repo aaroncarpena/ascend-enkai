@@ -26,6 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/deportes/{id}', [DeporteApiController::class, 'update']);
     Route::delete('/deportes/{id}', [DeporteApiController::class, 'destroy']);
 
-    Route::post('/users/{user}/deportes/{deporte}', [UserApiController::class, 'addDeporte']); // Añadir deporte a usuario
-    Route::delete('/users/{user}/deportes/{deporte}', [UserApiController::class, 'removeDeporte']); // Quitar deporte a usuario
+    Route::post('/users/{user}/deportes/{deporte}', [UserApiController::class, 'addDeporte']);
+    Route::delete('/users/{user}/deportes/{deporte}', [UserApiController::class, 'removeDeporte']);
 });

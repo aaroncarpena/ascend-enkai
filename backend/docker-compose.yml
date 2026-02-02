@@ -41,7 +41,7 @@ services:
         networks:
             - laravel-network
         ports:
-            - "3306:3306"
+            - "3315:3306"
 
 # Volúmenes para persistir datos
 volumes:
