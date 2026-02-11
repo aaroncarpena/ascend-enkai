@@ -14,11 +14,9 @@ class AuthApiController extends Controller
     public function register(Request $request)
     {
         try {
-            // Debug: Log de datos recibidos
             \Log::info('=== INICIO REGISTRO ===');
             \Log::info('Datos recibidos:', $request->all());
 
-            // Validar los datos de entrada
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|unique:users',
@@ -28,7 +26,6 @@ class AuthApiController extends Controller
 
             \Log::info('Validación exitosa');
 
-            // Crear el usuario
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -68,11 +65,9 @@ class AuthApiController extends Controller
                 'token_length' => strlen($token)
             ]);
 
-            // Debug: Verificar que el token se guardó en BD
             $tokenCount = $user->tokens()->count();
             \Log::info('Tokens del usuario en BD:', ['count' => $tokenCount]);
 
-            // Devolver respuesta exitosa
             $response = [
                 'access_token' => $token,
                 'token_type' => 'Bearer',

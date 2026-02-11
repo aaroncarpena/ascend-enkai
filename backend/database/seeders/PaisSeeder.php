@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Provincia;
 use Illuminate\Database\Seeder;
 use App\Models\Pais;
+use Illuminate\Support\Facades\Storage;
+
 class PaisSeeder extends Seeder
 {
     /**
@@ -12,10 +14,11 @@ class PaisSeeder extends Seeder
      */
     public function run(): void
     {
-        $paises = Pais::all();
-
-        foreach ($paises as $pais) {
-            Provincia::factory(3)->create(['pais_id' => $pais->id]);
+        $fichero = fopen(Storage::path('paises.csv'), 'r');
+        while(($datos = fgetcsv($fichero)) !=null){
+            Pais::create([
+                "nombre"=>$datos[0]
+            ]);
         }
     }
 }

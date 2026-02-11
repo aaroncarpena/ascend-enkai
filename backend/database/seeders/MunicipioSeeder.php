@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Municipio;
 use App\Models\Provincia;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class MunicipioSeeder extends Seeder
 {
@@ -13,10 +14,14 @@ class MunicipioSeeder extends Seeder
      */
     public function run(): void
     {
-        $provincias = Provincia::all();
+        $fichero = fopen(Storage::path('municipios_espanya.csv'), 'r');
+        while(($datos = fgetcsv($fichero)) !=null){
 
-        foreach ($provincias as $provincia) {
-            Municipio::factory(3)->create(['provincia_id' => $provincia->id]);
+            Municipio::create([
+                "codigo"=>$datos[0],
+                "nombre"=>$datos[1],
+                "provincia_id"=>$datos[2]
+            ]);
         }
     }
 }

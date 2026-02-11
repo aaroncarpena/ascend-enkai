@@ -13,6 +13,7 @@ class Provincia extends Model
     protected $table = 'provincia';
 
     protected $fillable = ['nombre', 'pais_id'];
+    protected $hidden = ['created_at','updated_at'];
 
     public function pais(): BelongsTo
     {
@@ -24,7 +25,7 @@ class Provincia extends Model
         return $this->hasMany(Municipio::class, 'provincia_id');
     }
 
-    public function perfiles()
+    public function perfiles(): HasMany
     {
         return $this->hasMany(Perfil::class, 'provincia_id');
     }

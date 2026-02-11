@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('municipio_id')->constrained('municipio')->onDelete('cascade');
             $table->string('nombre');
             $table->string('direccion');
+            $table->float('precio');
             $table->timestamps();
         });
     }

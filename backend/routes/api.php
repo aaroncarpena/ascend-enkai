@@ -28,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/users/{user}/deportes/{deporte}', [UserApiController::class, 'addDeporte']);
     Route::delete('/users/{user}/deportes/{deporte}', [UserApiController::class, 'removeDeporte']);
+
+    Route::post('/deportes/{deporte}/instalacion/{instalacion}', [UserApiController::class, 'addDeporte']);
+
 });

@@ -12,7 +12,8 @@ class Municipio extends Model
     use HasFactory;
     protected $table = 'municipio';
 
-    protected $fillable = ['nombre', 'codigoPostal', 'provincia_id'];
+    protected $fillable = ['nombre', 'codigo', 'provincia_id'];
+    protected $hidden = ['created_at','updated_at'];
 
     public function provincia(): BelongsTo
     {

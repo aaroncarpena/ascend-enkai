@@ -16,6 +16,7 @@ class InstalacionFactory extends Factory
             'municipio_id' => Municipio::factory(),
             'nombre' => $this->faker->company(),
             'direccion' => $this->faker->address(),
+            'precio' => $this->faker->randomFloat()
         ];
     }
 }

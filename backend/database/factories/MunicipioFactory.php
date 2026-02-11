@@ -19,7 +19,7 @@ class MunicipioFactory extends Factory
     {
         return [
             'nombre' => $this->faker->city(),
-            'codigoPostal' => $this->faker->postcode(),
+            'codigo' => $this->faker->postcode(),
             'provincia_id' => Provincia::factory()
         ];
     }

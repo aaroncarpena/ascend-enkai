@@ -12,6 +12,7 @@ class Pais extends Model
     protected $table = 'pais';
 
     protected $fillable = ['nombre'];
+    protected $hidden = ['created_at','updated_at'];
 
     public function provincias(): HasMany
     {
