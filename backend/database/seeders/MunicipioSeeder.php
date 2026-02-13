@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MunicipioSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         $fichero = fopen(Storage::path('municipios_espanya.csv'), 'r');

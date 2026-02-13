@@ -9,9 +9,7 @@ use App\Models\Municipio;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         User::factory(10)->create()->each(function ($user) {

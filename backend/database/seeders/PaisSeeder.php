@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PaisSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         $fichero = fopen(Storage::path('paises.csv'), 'r');

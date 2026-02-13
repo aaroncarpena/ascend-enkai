@@ -45,7 +45,6 @@ class AuthApiController extends Controller
 
             \Log::info('Método createToken disponible');
 
-            // Debug: Verificar tabla personal_access_tokens
             if (!\Schema::hasTable('personal_access_tokens')) {
                 \Log::error('La tabla personal_access_tokens NO existe');
                 return response()->json([
@@ -55,7 +54,7 @@ class AuthApiController extends Controller
 
             \Log::info('Tabla personal_access_tokens existe');
 
-            // Generar el token de Sanctum
+            // Generamos el token de Sanctum
             $tokenResult = $user->createToken('auth_token');
             $token = $tokenResult->plainTextToken;
 
