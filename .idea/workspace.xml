@@ -4,40 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Inserción de datos de los .csv, creación de la request register">
+    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Quitar Comentarios">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/AuthApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/AuthApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/PaisApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/PaisApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/RemoveDeporteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/RemoveDeporteRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/DeporteInstalacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/DeporteInstalacion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/AmistadFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/AmistadFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/DeporteFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/DeporteFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/MunicipioFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/MunicipioFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/PaisFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/PaisFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/PerfilFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/PerfilFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/ProvinciaFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ProvinciaFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/UserFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/0001_01_01_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/0001_01_01_000000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/0001_01_01_000001_create_cache_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/0001_01_01_000001_create_cache_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/0001_01_01_000002_create_jobs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/0001_01_01_000002_create_jobs_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_173529_create_deporte_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_173529_create_deporte_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174333_create_pais_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174333_create_pais_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174334_create_provincia_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174334_create_provincia_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174335_create_municipio_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174335_create_municipio_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/DeporteApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/DeporteApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/InstalacionApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/InstalacionApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ReservaApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ReservaApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreDeporteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreDeporteRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreInstalacionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreInstalacionRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateDeporteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateDeporteRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateInstalacionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateInstalacionRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174336_create_instalacion_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174336_create_instalacion_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180038_create_reserva_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180038_create_reserva_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180053_create_horario_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180053_create_horario_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180120_create_user_amigos_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180120_create_user_amigos_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180141_create_user_deporte_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180141_create_user_deporte_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180209_create_deporte_instalacion_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180209_create_deporte_instalacion_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_184155_create_perfil_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_184155_create_perfil_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_08_20_114434_create_personal_access_tokens_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_08_20_114434_create_personal_access_tokens_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DeporteSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DeporteSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/InstalacionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/InstalacionSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/MunicipioSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/MunicipioSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/PaisSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/PaisSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/ProvinciaSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/ProvinciaSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -409,7 +386,7 @@
       <workItem from="1770390078878" duration="3044000" />
       <workItem from="1770833012923" duration="51000" />
       <workItem from="1770833092276" duration="5516000" />
-      <workItem from="1770994827857" duration="1024000" />
+      <workItem from="1770994827857" duration="6584000" />
     </task>
     <task id="LOCAL-00001" summary="Parte de bakend">
       <option name="closed" value="true" />
@@ -459,7 +436,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770838603963</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Quitar Comentarios">
+      <option name="closed" value="true" />
+      <created>1770995994249</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1770995994249</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -476,7 +461,8 @@
     <MESSAGE value="Parte de bakend" />
     <MESSAGE value="Comprobación de rutas y algunos cambios en la configuración de sanctum" />
     <MESSAGE value="Inserción de datos de los .csv, creación de la request register" />
-    <option name="LAST_COMMIT_MESSAGE" value="Inserción de datos de los .csv, creación de la request register" />
+    <MESSAGE value="Quitar Comentarios" />
+    <option name="LAST_COMMIT_MESSAGE" value="Quitar Comentarios" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

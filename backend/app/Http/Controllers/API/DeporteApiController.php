@@ -20,11 +20,6 @@ class DeporteApiController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-        ]);
-
         $deporte = Deporte::create($request->all());
         return $deporte;
     }

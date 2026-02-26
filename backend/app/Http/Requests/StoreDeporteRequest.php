@@ -15,6 +15,7 @@ class StoreDeporteRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:100',
+            'descripcion' => 'required|string'
         ];
     }
 }

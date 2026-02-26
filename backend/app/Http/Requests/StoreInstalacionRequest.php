@@ -16,6 +16,7 @@ class StoreInstalacionRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:150',
             'direccion' => 'required|string|max:255',
+            'precio' => 'required|numeric|decimal:2',
             'municipio_id' => 'required|exists:municipio,id',
         ];
     }

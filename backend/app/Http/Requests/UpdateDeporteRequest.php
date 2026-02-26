@@ -15,6 +15,7 @@ class UpdateDeporteRequest extends FormRequest
     {
         return [
             'nombre' => 'sometimes|string|max:100',
+            'descripcion' => 'sometimes|string'
         ];
     }
 }
