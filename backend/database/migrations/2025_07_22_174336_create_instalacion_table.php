@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('instalacion', function (Blueprint $table) {
             $table->id();
             $table->foreignId('municipio_id')->constrained('municipio')->onDelete('cascade');
+            $table->foreignId('horario_id')->constrained('horario')->onDelete('cascade');
             $table->string('nombre');
             $table->string('direccion');
             $table->decimal('precio', 5, 2);

@@ -30,16 +30,9 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function amigosSolicitados(): BelongsToMany
+    public function amigos(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_amigos', 'solicitante_id', 'receptor_id')
-            ->withPivot('estado')
-            ->withTimestamps();
-    }
-
-    public function amigosRecibidos(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'user_amigos', 'receptor_id', 'solicitante_id')
             ->withPivot('estado')
             ->withTimestamps();
     }

@@ -10,12 +10,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_amigos', function (Blueprint $table) {
-            $table->foreignId('solicitante_id')->constrained('users');  // Usuario que envía solicitud
-            $table->foreignId('receptor_id')->constrained('users');    // Usuario que recibe solicitud
+            $table->foreignId('solicitante_id')->constrained('users');
+            $table->foreignId('receptor_id')->constrained('users');
             $table->enum('estado', ['pendiente', 'aceptada', 'rechazada'])->default('pendiente');
             $table->timestamps();
 
-            $table->unique(['solicitante_id', 'receptor_id']);  // Evita duplicados
+            $table->unique(['solicitante_id', 'receptor_id']);
         });
     }
 

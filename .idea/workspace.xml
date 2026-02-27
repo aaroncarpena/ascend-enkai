@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Quitar Comentarios">
+    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Añadido CRUD de instalación y reserva">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/DeporteApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/DeporteApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/InstalacionApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/InstalacionApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ReservaApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ReservaApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreDeporteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreDeporteRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreInstalacionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreInstalacionRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateDeporteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateDeporteRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateInstalacionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateInstalacionRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/DeporteInstalacion.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Instalacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Instalacion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/UserAmigos.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/UserDeporte.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174336_create_instalacion_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_174336_create_instalacion_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180120_create_user_amigos_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180120_create_user_amigos_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -387,6 +385,8 @@
       <workItem from="1770833012923" duration="51000" />
       <workItem from="1770833092276" duration="5516000" />
       <workItem from="1770994827857" duration="6584000" />
+      <workItem from="1772122825128" duration="1240000" />
+      <workItem from="1772204806503" duration="7030000" />
     </task>
     <task id="LOCAL-00001" summary="Parte de bakend">
       <option name="closed" value="true" />
@@ -444,7 +444,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770995994249</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Añadido CRUD de instalación y reserva">
+      <option name="closed" value="true" />
+      <created>1772122845414</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1772122845414</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,7 +470,8 @@
     <MESSAGE value="Comprobación de rutas y algunos cambios en la configuración de sanctum" />
     <MESSAGE value="Inserción de datos de los .csv, creación de la request register" />
     <MESSAGE value="Quitar Comentarios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Quitar Comentarios" />
+    <MESSAGE value="Añadido CRUD de instalación y reserva" />
+    <option name="LAST_COMMIT_MESSAGE" value="Añadido CRUD de instalación y reserva" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

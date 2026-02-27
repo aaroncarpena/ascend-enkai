@@ -30,4 +30,8 @@ class Instalacion extends Model
         return $this->belongsToMany(Deporte::class, 'deporte_instalacion', 'instalacion_id', 'deporte_id')
             ->withPivot('superficie', 'numPistas', 'precio');
     }
+    public function horario():BelongsTo
+    {
+        return $this->belongsTo(Horario::class, 'horario_id');
+    }
 }
