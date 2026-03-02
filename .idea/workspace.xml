@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Modificaciones a la factoría y seeder de instalación, añadidos los roles de admin y user, todas las rutas comprobadas menos reserva, creación factoría y seeder de horario, cambiado el orden de las migraciones y los seeders, añadido el horario a la request store. TODAS LAS RUTAS FUNCIONAN, menos reserva qué no está comprobada">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/HorarioApiController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreInstalacionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreInstalacionRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Horario.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Instalacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Instalacion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Municipio.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Municipio.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Pais.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Pais.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Perfil.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Perfil.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Provincia.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Provincia.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/HorarioFactory.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/InstalacionFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/InstalacionFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180053_create_horario_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180054_create_instalacion_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2025_07_22_180054_create_instalacion_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/HorarioSeeder.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/InstalacionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/InstalacionSeeder.php" afterDir="false" />
-    </list>
+    <list default="true" id="35d24de9-1255-41dd-a3f0-81be3afb973b" name="Changes" comment="Eliminación total de todo lo relacionado con horario, el cuál ha sido cambiado por dos atributos en instalación" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -399,7 +380,7 @@
       <workItem from="1772122825128" duration="1240000" />
       <workItem from="1772204806503" duration="8709000" />
       <workItem from="1772460556650" duration="10005000" />
-      <workItem from="1772474424203" duration="2728000" />
+      <workItem from="1772474424203" duration="3101000" />
     </task>
     <task id="LOCAL-00001" summary="Parte de bakend">
       <option name="closed" value="true" />
@@ -481,7 +462,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772471749638</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Eliminación total de todo lo relacionado con horario, el cuál ha sido cambiado por dos atributos en instalación">
+      <option name="closed" value="true" />
+      <created>1772477208446</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1772477208446</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -502,7 +491,8 @@
     <MESSAGE value="Añadido CRUD de instalación y reserva" />
     <MESSAGE value="Entidad-Relación Hecho, request de registro recuperada, leves modificaciones de relaciones, eliminación de los modelos de las intermedias, añadido el foreingId de horario a instalacion" />
     <MESSAGE value="Modificaciones a la factoría y seeder de instalación, añadidos los roles de admin y user, todas las rutas comprobadas menos reserva, creación factoría y seeder de horario, cambiado el orden de las migraciones y los seeders, añadido el horario a la request store. TODAS LAS RUTAS FUNCIONAN, menos reserva qué no está comprobada" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modificaciones a la factoría y seeder de instalación, añadidos los roles de admin y user, todas las rutas comprobadas menos reserva, creación factoría y seeder de horario, cambiado el orden de las migraciones y los seeders, añadido el horario a la request store. TODAS LAS RUTAS FUNCIONAN, menos reserva qué no está comprobada" />
+    <MESSAGE value="Eliminación total de todo lo relacionado con horario, el cuál ha sido cambiado por dos atributos en instalación" />
+    <option name="LAST_COMMIT_MESSAGE" value="Eliminación total de todo lo relacionado con horario, el cuál ha sido cambiado por dos atributos en instalación" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
