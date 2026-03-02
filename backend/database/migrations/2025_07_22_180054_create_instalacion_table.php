@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('horario_id')->constrained('horario')->onDelete('cascade');
             $table->string('nombre');
             $table->string('direccion');
-            $table->decimal('precio', 5, 2);
+            $table->decimal('precio', 8, 2);
             $table->timestamps();
         });
     }

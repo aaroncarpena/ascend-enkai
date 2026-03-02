@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Horario;
 use App\Models\Instalacion;
 use App\Models\Municipio;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,7 +17,7 @@ class InstalacionFactory extends Factory
             'municipio_id' => Municipio::factory(),
             'nombre' => $this->faker->company(),
             'direccion' => $this->faker->address(),
-            'precio' => $this->faker->randomFloat()
+            'precio' => $this->faker->randomFloat(2,1,9999),
         ];
     }
 }

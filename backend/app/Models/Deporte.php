@@ -13,7 +13,7 @@ class Deporte extends Model
     use HasFactory;
     protected $table = 'deporte';
 
-    protected $fillable = ['nombre', 'descripcion'];
+    protected $fillable = ['nombre', 'descripcion', 'numJugadores'];
 
     public function instalaciones(): BelongsToMany
     {

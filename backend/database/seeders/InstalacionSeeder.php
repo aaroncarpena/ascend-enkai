@@ -2,14 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\Instalacion;
 use Illuminate\Database\Seeder;
+use App\Models\Instalacion;
+use App\Models\Horario;
 
 class InstalacionSeeder extends Seeder
 {
-
     public function run(): void
     {
-        Instalacion::factory(5)->create();
+        $horarios = Horario::all();
+
+        if ($horarios->isEmpty()) {
+            $this->command->info('No hay horarios. Ejecuta primero el HorarioSeeder.');
+            return;
+        }
+
+        for ($i = 0; $i < 5; $i++) {
+            Instalacion::factory()->create([
+                'horario_id' => $horarios->random()->id,
+            ]);
+        }
     }
 }

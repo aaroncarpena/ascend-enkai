@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             ProvinciaSeeder::class,
             MunicipioSeeder::class,
             DeporteSeeder::class,
+            HorarioSeeder::class,
             InstalacionSeeder::class,
             UserSeeder::class,
         ]);
