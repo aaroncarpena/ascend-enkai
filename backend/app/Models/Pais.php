@@ -19,8 +19,5 @@ class Pais extends Model
         return $this->hasMany(Provincia::class, 'pais_id');
     }
 
-    public function perfiles(): HasMany
-    {
-        return $this->hasMany(Perfil::class, 'pais_id');
-    }
+
 }

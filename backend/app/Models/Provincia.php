@@ -25,8 +25,5 @@ class Provincia extends Model
         return $this->hasMany(Municipio::class, 'provincia_id');
     }
 
-    public function perfiles(): HasMany
-    {
-        return $this->hasMany(Perfil::class, 'provincia_id');
-    }
+
 }

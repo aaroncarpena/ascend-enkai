@@ -21,18 +21,5 @@ class Perfil extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function municipio(): BelongsTo
-    {
-        return $this->belongsTo(Municipio::class, 'municipio_id');
-    }
 
-    public function provincia(): BelongsTo
-    {
-        return $this->belongsTo(Provincia::class, 'provincia_id');
-    }
-
-    public function pais(): BelongsTo
-    {
-        return $this->belongsTo(Pais::class, 'pais_id');
-    }
 }

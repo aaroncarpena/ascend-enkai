@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,12 +38,12 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function reservas()
+    public function reservas(): HasMany
     {
         return $this->hasMany(Reserva::class, 'user_id');
     }
 
-    public function perfil()
+    public function perfil(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Perfil::class, 'user_id');
     }

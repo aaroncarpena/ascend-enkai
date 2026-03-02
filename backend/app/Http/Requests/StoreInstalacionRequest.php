@@ -18,7 +18,8 @@ class StoreInstalacionRequest extends FormRequest
             'direccion' => 'required|string|max:255',
             'precio' => 'required|numeric|decimal:2',
             'municipio_id' => 'required|exists:municipio,id',
-            'horario_id' => 'required|exists:horario,id'
+            'horario_apertura' => 'required',
+            'horario_clausura' => 'required'
         ];
     }
 }

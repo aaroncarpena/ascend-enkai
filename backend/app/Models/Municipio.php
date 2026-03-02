@@ -25,8 +25,5 @@ class Municipio extends Model
         return $this->hasMany(Instalacion::class, 'municipio_id');
     }
 
-    public function perfiles()
-    {
-        return $this->hasMany(Perfil::class, 'municipio_id');
-    }
+
 }

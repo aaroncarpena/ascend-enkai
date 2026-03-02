@@ -13,7 +13,7 @@ class Instalacion extends Model
     use HasFactory;
     protected $table = 'instalacion';
 
-    protected $fillable = ['municipio_id', 'nombre', 'direccion', 'precio', 'horario_id'];
+    protected $fillable = ['municipio_id', 'nombre', 'direccion', 'precio', 'horario_apertura', 'horario_clausura'];
 
     public function municipio(): BelongsTo
     {
@@ -30,8 +30,5 @@ class Instalacion extends Model
         return $this->belongsToMany(Deporte::class, 'deporte_instalacion', 'instalacion_id', 'deporte_id')
             ->withPivot('superficie', 'numPistas', 'precio');
     }
-    public function horario():BelongsTo
-    {
-        return $this->belongsTo(Horario::class, 'horario_id');
-    }
+
 }
