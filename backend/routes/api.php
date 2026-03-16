@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware(Propietario::class);
     Route::delete('/reserva/{id}', [ReservaApiController::class, 'destroy'])
         ->middleware(Propietario::class);
-    Route::post('/reserva', [ReservaApiController::class, 'store']); // Crear reserva propia
+    Route::post('/reserva', [ReservaApiController::class, 'store']);
 
     Route::middleware(RolAdmin::class)->group(function () {
 
