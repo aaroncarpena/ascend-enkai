@@ -1,17 +1,36 @@
 import React, {createContext, useState, useEffect} from 'react'
 
-const contextAuth = createContext()
+const authProvider = createContext()
 const AuthProvider = ({children}) => {
 
-    const [user, setUser] = useState()
+    const defaultDataSesion = {
+        name: "",
+        email: "",
+        password: "",
+        telefono: ""
+    }
+
+    const [user, setUser] = useState();
+    const [sessionData, setSessionData] = useState(defaultDataSesion);
+    const [session, setSession] = useState(false);
+    const [error, setError] = useState("")
+
+    const register = async() => {
+        
+    }
+    const login = async() => {
+
+    }
+    const logout = async() => {
+
+    }
 
 
-
-    const returnValues = {user}
+    const returnValues = {user, sessionData, session, error, register, login, logout}
     return (
-        <contextAuth.Provider value={returnValues}>{children}</contextAuth.Provider>
+        <authProvider.Provider value={returnValues}>{children}</authProvider.Provider>
     )
 }
 
 export default AuthProvider
-export { contextAuth }
+export { authProvider }
