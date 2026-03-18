@@ -7,6 +7,7 @@ const AuthProvider = ({children}) => {
         name: "",
         email: "",
         password: "",
+        password_verified: "",
         telefono: ""
     }
 
@@ -26,7 +27,7 @@ const AuthProvider = ({children}) => {
     }
 
 
-    const returnValues = {user, sessionData, session, error, register, login, logout}
+    const returnValues = {defaultDataSesion, user, sessionData, session, error, register, login, logout}
     return (
         <authProvider.Provider value={returnValues}>{children}</authProvider.Provider>
     )

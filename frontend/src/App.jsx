@@ -3,10 +3,11 @@ import Nav from "./components/structure/navbar/Nav.jsx"
 import Content from "./components/structure/Content.jsx"
 import Router from "./router/Router.jsx"
 import Footer from "./components/structure/Footer.jsx"
+import { useForm } from "react-hook-form"
 import './App.css'
 
 function App() {
-
+  console.log(useForm);
   return (
     <>
       <Header />
