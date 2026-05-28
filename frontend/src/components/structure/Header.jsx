@@ -8,7 +8,7 @@ const Header = () => {
                 {/*TODO: poner logo */}
                 <img src="#" alt="Logo AscendEnkai" />
                 <h1>ASCEND ENKAI</h1>
-                <Link to='/login'>Log in</Link>
+                
             </header>
         </div>
     </>
