@@ -15,7 +15,7 @@ class AddDeporteRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'deporte_id' => 'required|exists:deportes,id',
+            'deporte_id' => 'required|exists:deporte,id',
         ];
     }
 }

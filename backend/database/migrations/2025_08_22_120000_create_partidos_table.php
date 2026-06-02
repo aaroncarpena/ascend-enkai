@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('partidos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('deporte_id')->constrained('deportes')->onDelete('cascade');
+            $table->foreignId('deporte_id')->constrained('deporte')->onDelete('cascade');
             $table->foreignId('instalacion_id')->constrained('instalacion')->onDelete('cascade');
             $table->date('fecha');
             $table->time('hora_inicio');

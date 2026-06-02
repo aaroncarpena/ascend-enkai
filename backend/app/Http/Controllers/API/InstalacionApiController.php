@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 class InstalacionApiController extends Controller
 {
     public function index(){
-        return Instalacion::paginate(10);
+        return Instalacion::with('municipio')->paginate(10);
     }
     public function store(Request $request)
     {
         return Instalacion::create($request->all());
     }
     public function show($id){
-        return Instalacion::findOrFail($id);
+        return Instalacion::with('municipio')->findOrFail($id);
     }
     public function update(Request $request, $id){
         $instalacion = Instalacion::findOrFail($id);

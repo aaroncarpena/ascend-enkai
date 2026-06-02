@@ -1,7 +1,15 @@
-const BASE_URL = import.meta.env.VITE_API_URL
+const BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '')
+
+const buildUrl = (endpoint) => {
+  const normalizedEndpoint = String(endpoint).replace(/^\/+/, '')
+  return `${BASE_URL}/${normalizedEndpoint}`
+}
 
 const buildHeaders = (token) => {
-  const headers = { 'Content-Type': 'application/json' }
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  }
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
@@ -9,7 +17,8 @@ const buildHeaders = (token) => {
 }
 
 const get = async (endpoint, token = null) => {
-  const response = await fetch(`${BASE_URL}/${endpoint}`, {
+  const response = await fetch(buildUrl(endpoint), {
+    cache: 'no-store',
     headers: buildHeaders(token),
   })
   if (!response.ok) {
@@ -19,7 +28,7 @@ const get = async (endpoint, token = null) => {
 }
 
 const post = async (endpoint, body, token = null) => {
-  const response = await fetch(`${BASE_URL}/${endpoint}`, {
+  const response = await fetch(buildUrl(endpoint), {
     method: 'POST',
     headers: buildHeaders(token),
     body: JSON.stringify(body),
@@ -31,7 +40,7 @@ const post = async (endpoint, body, token = null) => {
 }
 
 const put = async (endpoint, body, token = null) => {
-  const response = await fetch(`${BASE_URL}/${endpoint}`, {
+  const response = await fetch(buildUrl(endpoint), {
     method: 'PUT',
     headers: buildHeaders(token),
     body: JSON.stringify(body),
@@ -43,7 +52,7 @@ const put = async (endpoint, body, token = null) => {
 }
 
 const patch = async (endpoint, body, token = null) => {
-  const response = await fetch(`${BASE_URL}/${endpoint}`, {
+  const response = await fetch(buildUrl(endpoint), {
     method: 'PATCH',
     headers: buildHeaders(token),
     body: JSON.stringify(body),
@@ -55,7 +64,7 @@ const patch = async (endpoint, body, token = null) => {
 }
 
 const del = async (endpoint, token = null) => {
-  const response = await fetch(`${BASE_URL}/${endpoint}`, {
+  const response = await fetch(buildUrl(endpoint), {
     method: 'DELETE',
     headers: buildHeaders(token),
   })

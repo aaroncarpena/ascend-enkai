@@ -18,7 +18,7 @@ class RemoveDeporteRequest extends FormRequest
     {
         return [
             'user' => 'required|exists:users,id',
-            'deporte' => 'required|exists:deportes,id',
+            'deporte' => 'required|exists:deporte,id',
         ];
     }
 

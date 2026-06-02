@@ -13,7 +13,7 @@ class DeporteModalidadSeeder extends Seeder
         // Crear modalidades
         $modalidades = [
             ['nombre' => 'Individual', 'descripcion' => 'Competencia de uno contra uno'],
-            ['nombre' => 'Doble', 'descripcion' => 'Competencia de dos contra dos'],
+            ['nombre' => 'Dobles', 'descripcion' => 'Competencia de dos contra dos'],
             ['nombre' => 'Equipos', 'descripcion' => 'Competencia por equipos'],
         ];
 
@@ -22,7 +22,7 @@ class DeporteModalidadSeeder extends Seeder
         }
 
         $individual = Modalidad::where('nombre', 'Individual')->first();
-        $doble = Modalidad::where('nombre', 'Doble')->first();
+        $doble = Modalidad::where('nombre', 'Dobles')->first();
         $equipos = Modalidad::where('nombre', 'Equipos')->first();
 
         // Deportes con sus modalidades
@@ -32,7 +32,6 @@ class DeporteModalidadSeeder extends Seeder
                 'descripcion' => 'Deporte de equipo jugado entre dos equipos de once jugadores',
                 'numJugadores' => 22,
                 'modalidades' => [
-                    ['id' => $doble->id, 'min' => 4, 'max' => 8],
                     ['id' => $equipos->id, 'min' => 10, 'max' => 22],
                 ]
             ],
