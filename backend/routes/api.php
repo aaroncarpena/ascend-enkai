@@ -12,6 +12,12 @@ use App\Http\Middleware\RolAdmin;
 Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login'])->name('login');
 
+// Rutas públicas
+Route::get('/deportes', [DeporteApiController::class, 'index']);
+Route::get('/deportes/{id}', [DeporteApiController::class, 'show']);
+Route::get('/instalacion', [InstalacionApiController::class, 'index']);
+Route::get('/instalacion/{id}', [InstalacionApiController::class, 'show']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthApiController::class, 'logout']);
@@ -25,12 +31,6 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware(Propietario::class);
     Route::delete('/users/{user}/deportes/{deporte}', [UserApiController::class, 'removeDeporte'])
         ->middleware(Propietario::class);
-
-    Route::get('/deportes', [DeporteApiController::class, 'index']);
-    Route::get('/deportes/{id}', [DeporteApiController::class, 'show']);
-
-    Route::get('/instalacion', [InstalacionApiController::class, 'index']);
-    Route::get('/instalacion/{id}', [InstalacionApiController::class, 'show']);
 
     Route::get('/reserva/{id}', [ReservaApiController::class, 'show'])
         ->middleware(Propietario::class);

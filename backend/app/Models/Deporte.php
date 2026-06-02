@@ -27,4 +27,15 @@ class Deporte extends Model
             ->withPivot('nivel')
             ->withTimestamps();
     }
+
+    public function partidos(): HasMany
+    {
+        return $this->hasMany(Partido::class, 'deporte_id');
+    }
+
+    public function modalidades(): BelongsToMany
+    {
+        return $this->belongsToMany(Modalidad::class, 'deporte_modalidad', 'deporte_id', 'modalidad_id')
+                    ->withPivot('min_jugadores', 'max_jugadores');
+    }
 }

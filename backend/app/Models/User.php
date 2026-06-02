@@ -47,6 +47,19 @@ class User extends Authenticatable
     {
         return $this->hasOne(Perfil::class, 'user_id');
     }
+
+    public function partidosCreados(): HasMany
+    {
+        return $this->hasMany(Partido::class, 'user_id');
+    }
+
+    public function partidosEnLosQueParticipa(): BelongsToMany
+    {
+        return $this->belongsToMany(Partido::class, 'partido_user', 'user_id', 'partido_id')
+            ->withPivot('estado', 'unido_en')
+            ->withTimestamps();
+    }
+
     public function tokens()
     {
         return $this->morphMany(PersonalAccessToken::class, 'tokenable');

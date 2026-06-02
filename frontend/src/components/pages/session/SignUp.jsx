@@ -3,80 +3,63 @@ import { useForm } from 'react-hook-form'
 import useAuthProvider from '../../../hooks/useAuthProvider.js'
 
 const SignUp = () => {
-  const { defaultDataSesion } = useAuthProvider()
-  const { register, handleSubmit } = useForm({ defaultValues: defaultDataSesion })
-  const onSubmit = (data) => console.log(data)
+  const { defaultDataSesion, register: registerUser, error } = useAuthProvider()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm({ defaultValues: defaultDataSesion })
+
+  const onSubmit = async (data) => {
+    try {
+      await registerUser(data)
+      reset(defaultDataSesion)
+    } catch (e) {
+      console.error('Registro fallido:', e)
+    }
+  }
 
   return (
-    <div className='min-h-screen bg-[#F5F6F8] flex items-center justify-center px-4'>
-      <div className='bg-white border border-[#E5E7EB] rounded-xl p-8 w-full max-w-sm'>
+    <div className='min-h-screen bg-[#F5F6F8] flex items-center justify-center px-4 py-8'>
+      <div className='w-full max-w-lg rounded-[2rem] border border-[#E5E7EB] bg-white p-10 shadow-xl'>
+        <h2 className='mb-6 text-3xl font-semibold text-[#1F1F1F]'>Crear cuenta</h2>
 
-        <h2 className='text-[#1F1F1F] text-xl font-semibold tracking-tight mb-6'>Crear cuenta</h2>
+        {error && (
+          <div className='mb-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700'>
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
-
-          <div className='flex flex-col gap-1.5'>
-            <label htmlFor='name' className='text-[#1F1F1F] text-sm font-medium'>Usuario</label>
-            <input
-              {...register('name')}
-              type='text'
-              id='name'
-              placeholder='Introduce tu usuario'
-              className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150'
-            />
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+          <div>
+            <label htmlFor='name' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Usuario</label>
+            <input {...register('name')} type='text' id='name' placeholder='Introduce tu usuario' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
-          <div className='flex flex-col gap-1.5'>
-            <label htmlFor='email' className='text-[#1F1F1F] text-sm font-medium'>Email</label>
-            <input
-              {...register('email')}
-              type='email'
-              id='email'
-              placeholder='Introduce tu email'
-              className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150'
-            />
+          <div>
+            <label htmlFor='email' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Email</label>
+            <input {...register('email')} type='email' id='email' placeholder='Introduce tu email' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
-          <div className='flex flex-col gap-1.5'>
-            <label htmlFor='telefono' className='text-[#1F1F1F] text-sm font-medium'>Teléfono</label>
-            <input
-              {...register('telefono')}
-              type='tel'
-              id='telefono'
-              placeholder='Introduce tu teléfono'
-              className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150'
-            />
+          <div>
+            <label htmlFor='telefono' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Teléfono</label>
+            <input {...register('telefono')} type='tel' id='telefono' placeholder='Introduce tu teléfono' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
-          <div className='flex flex-col gap-1.5'>
-            <label htmlFor='password' className='text-[#1F1F1F] text-sm font-medium'>Contraseña</label>
-            <input
-              {...register('password')}
-              type='password'
-              id='password'
-              placeholder='Introduce tu contraseña'
-              className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150'
-            />
+          <div>
+            <label htmlFor='password' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Contraseña</label>
+            <input {...register('password')} type='password' id='password' placeholder='Introduce tu contraseña' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
-          <div className='flex flex-col gap-1.5'>
-            <label htmlFor='password_verified' className='text-[#1F1F1F] text-sm font-medium'>Confirmar contraseña</label>
-            <input
-              {...register('password_verified')}
-              type='password'
-              id='password_verified'
-              placeholder='Repite tu contraseña'
-              className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150'
-            />
+          <div>
+            <label htmlFor='password_verified' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Confirmar contraseña</label>
+            <input {...register('password_verified')} type='password' id='password_verified' placeholder='Repite tu contraseña' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
-          <button
-            type='submit'
-            className='mt-2 bg-[#AAED43] text-[#1a2e00] text-sm font-medium py-2 rounded-lg hover:bg-[#1F1F1F] hover:text-[#AAED43] transition-colors duration-150'
-          >
-            Registrarse
+          <button type='submit' disabled={isSubmitting} className='w-full rounded-2xl bg-[#AAED43] px-4 py-3 text-sm font-semibold text-[#1a2e00] transition-colors duration-150 hover:bg-[#1F1F1F] hover:text-[#AAED43] disabled:opacity-60 disabled:cursor-not-allowed'>
+            {isSubmitting ? 'Registrando...' : 'Registrarse'}
           </button>
-
         </form>
       </div>
     </div>

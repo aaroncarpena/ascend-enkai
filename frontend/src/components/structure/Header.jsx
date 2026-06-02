@@ -6,9 +6,7 @@ const Header = () => {
         <div>
             <header>
                 {/*TODO: poner logo */}
-                <img src="#" alt="Logo AscendEnkai" />
-                <h1>ASCEND ENKAI</h1>
-                
+                <img src="#" alt="Logo" />
             </header>
         </div>
     </>

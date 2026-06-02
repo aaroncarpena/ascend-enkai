@@ -31,4 +31,9 @@ class Instalacion extends Model
             ->withPivot('superficie', 'numPistas', 'precio');
     }
 
+    public function partidos(): HasMany
+    {
+        return $this->hasMany(Partido::class, 'instalacion_id');
+    }
+
 }

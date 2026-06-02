@@ -10,12 +10,12 @@ class DeporteApiController extends Controller
 {
     public function index()
     {
-        return Deporte::all();
+        return Deporte::with('modalidades')->get();
     }
 
     public function show($id)
     {
-        return Deporte::findOrFail($id);
+        return Deporte::with('modalidades')->findOrFail($id);
     }
 
     public function store(Request $request)

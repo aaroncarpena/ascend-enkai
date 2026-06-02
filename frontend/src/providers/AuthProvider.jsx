@@ -1,37 +1,28 @@
-import React, {createContext, useState, useEffect} from 'react'
+import React, { createContext } from 'react'
+import useSession from '../hooks/useSession.js'
 
 const authProvider = createContext()
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
+  const defaultDataSesion = {
+    name: '',
+    email: '',
+    password: '',
+    password_verified: '',
+    telefono: '',
+  }
 
-    const defaultDataSesion = {
-        name: "",
-        email: "",
-        password: "",
-        password_verified: "",
-        telefono: ""
-    }
+  const session = useSession()
 
-    const [user, setUser] = useState();
-    const [sessionData, setSessionData] = useState(defaultDataSesion);
-    const [session, setSession] = useState(false);
-    const [error, setError] = useState("")
+  const value = {
+    defaultDataSesion,
+    ...session,
+  }
 
-    const register = async() => {
-        
-    }
-    const login = async() => {
-
-    }
-    const logout = async() => {
-
-    }
-
-
-    const returnValues = {defaultDataSesion, user, sessionData, session, error, register, login, logout}
-    return (
-        <authProvider.Provider value={returnValues}>{children}</authProvider.Provider>
-    )
+  return (
+    <authProvider.Provider value={value}>{children}</authProvider.Provider>
+  )
 }
 
 export default AuthProvider
 export { authProvider }
+

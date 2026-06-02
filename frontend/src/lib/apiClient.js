@@ -1,19 +1,27 @@
 const BASE_URL = import.meta.env.VITE_API_URL
 
+const buildHeaders = (token) => {
+    const headers = { "Content-Type": "application/json" }
+    if (token) {
+        headers.Authorization = `Bearer ${token}`
+    }
+    return headers
+}
+
 const get = async (endpoint, token) => {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`}
+        headers: buildHeaders(token)
     })
     if(!response.ok) {
         throw new Error(await response.text());
-    } 
+    }
     return response.json()
 }
 
-const post = async(endpoint, body) => {
+const post = async(endpoint, body, token = null) => {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json"},
+        headers: buildHeaders(token),
         body: JSON.stringify(body)
     })
     if(!response.ok){
@@ -25,7 +33,7 @@ const post = async(endpoint, body) => {
 const del = async(endpoint, token) => {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
         method: "DELETE",
-        headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`}
+        headers: buildHeaders(token)
     })
     if(!response.ok){
         throw new Error(await response.text());
@@ -36,7 +44,7 @@ const del = async(endpoint, token) => {
 const put = async(endpoint, body, token) => {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
         method: "PUT",
-        headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`},
+        headers: buildHeaders(token),
         body: JSON.stringify(body)
     })
     if(!response.ok){
@@ -48,7 +56,7 @@ const put = async(endpoint, body, token) => {
 const patch = async(endpoint, body, token) => {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
         method: "PATCH",
-        headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`},
+        headers: buildHeaders(token),
         body: JSON.stringify(body)
     })
     if(!response.ok){
@@ -56,6 +64,5 @@ const patch = async(endpoint, body, token) => {
     }
     return response.json()
 }
-
 
 export {get, post, del, put, patch}
