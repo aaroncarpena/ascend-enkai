@@ -18,7 +18,6 @@ const SportCenterMatchesPage = () => {
     loading,
     error,
     user,
-    fetchMatchesBySportCenter,
     updateSportCenterFilters,
     resetSportCenterFilters,
     createSportCenterMatch,
@@ -39,8 +38,12 @@ const SportCenterMatchesPage = () => {
   }, [fetchSports, sports.length])
 
   useEffect(() => {
-    fetchMatchesBySportCenter(sportCenterId)
-  }, [fetchMatchesBySportCenter, sportCenterId])
+    resetSportCenterFilters(sportCenterId)
+  }, [resetSportCenterFilters, sportCenterId])
+
+  useEffect(() => {
+    setShowCreateForm(false)
+  }, [sportCenterId])
 
   const center = getSportCenterById(sportCenterId)
 
@@ -95,18 +98,20 @@ const SportCenterMatchesPage = () => {
             </div>
           )}
 
-          <div className="mt-8">
-            <MatchFilters
-              filters={filters}
-              levels={levels}
-              centers={[]}
-              sports={sports}
-              showCenterFilter={false}
-              showSportFilter
-              onChange={(nextFilters) => updateSportCenterFilters(sportCenterId, nextFilters)}
-              onReset={() => resetSportCenterFilters(sportCenterId)}
-            />
-          </div>
+          {!showCreateForm && (
+            <div className="mt-8">
+              <MatchFilters
+                filters={filters}
+                levels={levels}
+                centers={[]}
+                sports={sports}
+                showCenterFilter={false}
+                showSportFilter
+                onChange={(nextFilters) => updateSportCenterFilters(sportCenterId, nextFilters)}
+                onReset={() => resetSportCenterFilters(sportCenterId)}
+              />
+            </div>
+          )}
 
           {error && (
             <div className="mt-8 rounded-2xl bg-rose-50 p-4 text-left text-sm text-rose-800">

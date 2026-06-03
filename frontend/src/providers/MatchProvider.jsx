@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 import useAuthProvider from '../hooks/useAuthProvider'
+import useNotification from '../hooks/useNotification.js'
 import { useApi } from '../hooks/useApi'
 import { MatchContext, defaultFilters } from './matchContext'
 
@@ -38,6 +39,7 @@ const MatchProvider = ({ children }) => {
   const [myMatchesError, setMyMatchesError] = useState('')
   const { get, post, del } = useApi()
   const { token, user, isAuthenticated } = useAuthProvider()
+  const notification = useNotification()
 
   const fetchMatches = useCallback(
     async (sportId, nextFilters = filtersRef.current) => {
@@ -70,7 +72,7 @@ const MatchProvider = ({ children }) => {
         const response = await get(`instalacion/${sportCenterId}/partidos${buildQuery(sportCenterFilters)}`)
         setMatches(Array.isArray(response) ? response : response?.data || [])
       } catch (err) {
-        console.error('Error al cargar partidos de la instalación:', err)
+        console.error('Error al cargar partidos de la instalacion:', err)
         setError('No se pudieron cargar los partidos.')
       } finally {
         setLoading(false)
@@ -135,8 +137,9 @@ const MatchProvider = ({ children }) => {
   const runProtectedAction = useCallback(
     async (action) => {
       if (!isAuthenticated || !token) {
-        const message = 'Inicia sesión para realizar esta acción.'
+        const message = 'Inicia sesion para realizar esta accion.'
         setError(message)
+        notification.info('Inicia sesion para continuar.', 'Accion protegida')
         return null
       }
 
@@ -144,12 +147,13 @@ const MatchProvider = ({ children }) => {
       try {
         return await action()
       } catch (err) {
-        console.error('Error en acción de partidos:', err)
-        setError(err.message || 'No se pudo completar la acción.')
+        console.error('Error en accion de partidos:', err)
+        setError(err.message || 'No se pudo completar la accion.')
+        notification.error('No se pudo completar la accion. Intentalo de nuevo.')
         return null
       }
     },
-    [isAuthenticated, token],
+    [isAuthenticated, notification, token],
   )
 
   const fetchMyMatches = useCallback(async () => {
@@ -188,9 +192,10 @@ const MatchProvider = ({ children }) => {
 
         await fetchMatches(sportId)
         await fetchMyMatches()
+        notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
       })
     },
-    [fetchMatches, fetchMyMatches, post, runProtectedAction, token],
+    [fetchMatches, fetchMyMatches, notification, post, runProtectedAction, token],
   )
 
   const createSportCenterMatch = useCallback(
@@ -209,9 +214,10 @@ const MatchProvider = ({ children }) => {
 
         await fetchMatchesBySportCenter(sportCenterId)
         await fetchMyMatches()
+        notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
       })
     },
-    [fetchMatchesBySportCenter, fetchMyMatches, post, runProtectedAction, token],
+    [fetchMatchesBySportCenter, fetchMyMatches, notification, post, runProtectedAction, token],
   )
 
   const joinMatch = useCallback(
@@ -220,20 +226,25 @@ const MatchProvider = ({ children }) => {
         await post(`partidos/${matchId}/unirse`, {}, token)
         await refreshCurrentMatches(listId)
         await fetchMyMatches()
+        notification.success('Te has unido al partido.', 'Asistencia confirmada')
       })
     },
-    [fetchMyMatches, post, refreshCurrentMatches, runProtectedAction, token],
+    [fetchMyMatches, notification, post, refreshCurrentMatches, runProtectedAction, token],
   )
 
   const leaveMatch = useCallback(
     async (listId, matchId) => {
       await runProtectedAction(async () => {
-        await del(`partidos/${matchId}/unirse`, token)
+        const response = await del(`partidos/${matchId}/unirse`, token)
         await refreshCurrentMatches(listId)
         await fetchMyMatches()
+        notification.info(
+          response?.message || 'Te has desapuntado del partido.',
+          'Asistencia cancelada',
+        )
       })
     },
-    [del, fetchMyMatches, refreshCurrentMatches, runProtectedAction, token],
+    [del, fetchMyMatches, notification, refreshCurrentMatches, runProtectedAction, token],
   )
 
   const value = {

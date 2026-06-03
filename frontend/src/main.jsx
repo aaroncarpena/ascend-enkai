@@ -8,19 +8,22 @@ import AuthProvider from './providers/AuthProvider.jsx'
 import SportProvider from './providers/SportProvider.jsx'
 import SportCenterProvider from './providers/SportCenterProvider.jsx'
 import MatchProvider from './providers/MatchProvider.jsx'
+import NotificationProvider from './providers/NotificationProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <SportProvider>
-          <SportCenterProvider>
-            <MatchProvider>
-              <App />
-            </MatchProvider>
-          </SportCenterProvider>
-        </SportProvider>
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <SportProvider>
+            <SportCenterProvider>
+              <MatchProvider>
+                <App />
+              </MatchProvider>
+            </SportCenterProvider>
+          </SportProvider>
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   </StrictMode>,
 )

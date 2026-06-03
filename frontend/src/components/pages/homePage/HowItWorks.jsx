@@ -18,12 +18,12 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="mt-14 rounded-[2rem] bg-[#0F172A] px-8 py-12 text-white sm:px-12 sm:py-16">
+    <section className="mt-14 rounded-[2rem] border border-slate-200 bg-white px-8 py-12 shadow-sm sm:px-12 sm:py-16">
       <div className="grid gap-10 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#A3BFFA]">Cómo funciona</p>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Tres pasos para jugar más y organizar mejor</h2>
-          <p className="max-w-2xl text-base leading-7 text-slate-300">Desde explorar instalaciones hasta reservar y reunirte con tu equipo, esta página inicial te ayuda a comenzar con confianza y sin perder tiempo.</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1F1F1F]/70">Cómo funciona</p>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Tres pasos para jugar más y organizar mejor</h2>
+          <p className="max-w-2xl text-base leading-7 text-slate-600">Desde explorar instalaciones hasta reservar y reunirte con tu equipo, esta página inicial te ayuda a comenzar con confianza y sin perder tiempo.</p>
         </div>
 
         <div className="grid gap-4">

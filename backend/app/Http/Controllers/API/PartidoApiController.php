@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Deporte;
 use App\Models\Instalacion;
 use App\Models\Partido;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PartidoApiController extends Controller
@@ -104,13 +105,31 @@ class PartidoApiController extends Controller
 
     public function leave(Request $request, Partido $partido)
     {
-        $partido->jugadores()->updateExistingPivot($request->user()->id, [
-            'estado' => 'cancelado',
-        ]);
+        $deleted = DB::transaction(function () use ($request, $partido) {
+            $partido->jugadores()->updateExistingPivot($request->user()->id, [
+                'estado' => 'cancelado',
+            ]);
 
-        $this->syncPlayersCount($partido);
+            $activePlayersCount = $partido->jugadores()
+                ->wherePivot('estado', 'confirmado')
+                ->count();
 
-        return $partido->load($this->relations());
+            if ($activePlayersCount === 0) {
+                $partido->delete();
+                return true;
+            }
+
+            $partido->jugadores_actuales = $activePlayersCount;
+            $partido->save();
+
+            return false;
+        });
+
+        if ($deleted) {
+            return response()->json(['message' => 'Partido eliminado porque no quedan jugadores.']);
+        }
+
+        return $partido->fresh()->load($this->relations());
     }
 
     private function filteredMatches($query, Request $request)

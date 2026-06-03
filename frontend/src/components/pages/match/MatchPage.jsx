@@ -17,7 +17,6 @@ const MatchPage = () => {
     filters,
     loading,
     error,
-    fetchMatches,
     updateFilters,
     resetFilters,
     createMatch,
@@ -39,8 +38,12 @@ const MatchPage = () => {
   }, [centers.length, fetchSportCenters])
 
   useEffect(() => {
-    fetchMatches(sportId)
-  }, [fetchMatches, sportId])
+    resetFilters(sportId)
+  }, [resetFilters, sportId])
+
+  useEffect(() => {
+    setShowCreateForm(false)
+  }, [sportId])
 
   const sport = getSportById(Number(sportId))
 
@@ -84,15 +87,17 @@ const MatchPage = () => {
             )}
           </div>
 
-          <div className="mt-8">
-            <MatchFilters
-              filters={filters}
-              levels={levels}
-              centers={matchCenters}
-              onChange={(nextFilters) => updateFilters(sportId, nextFilters)}
-              onReset={() => resetFilters(sportId)}
-            />
-          </div>
+          {!showCreateForm && (
+            <div className="mt-8">
+              <MatchFilters
+                filters={filters}
+                levels={levels}
+                centers={matchCenters}
+                onChange={(nextFilters) => updateFilters(sportId, nextFilters)}
+                onReset={() => resetFilters(sportId)}
+              />
+            </div>
+          )}
 
           {user && showCreateForm && (
             <div className="mt-8">
