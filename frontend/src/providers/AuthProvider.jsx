@@ -1,7 +1,7 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import useSession from '../hooks/useSession.js'
+import { AuthContext } from './authContext.js'
 
-const authProvider = createContext()
 const AuthProvider = ({ children }) => {
   const defaultDataSesion = {
     name: '',
@@ -9,6 +9,14 @@ const AuthProvider = ({ children }) => {
     password: '',
     password_verified: '',
     telefono: '',
+    account_type: 'user',
+    installation: {
+      nombre: '',
+      direccion: '',
+      municipio_id: '',
+      horario_apertura: '',
+      horario_clausura: '',
+    },
   }
 
   const session = useSession()
@@ -19,10 +27,9 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <authProvider.Provider value={value}>{children}</authProvider.Provider>
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
   )
 }
 
 export default AuthProvider
-export { authProvider }
 

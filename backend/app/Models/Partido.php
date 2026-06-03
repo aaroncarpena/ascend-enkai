@@ -53,7 +53,6 @@ class Partido extends Model
     public function jugadores(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'partido_user', 'partido_id', 'user_id')
-                    ->withPivot('estado', 'unido_en')
-                    ->withTimestamps();
+                    ->withPivot('estado', 'unido_en');
     }
 }

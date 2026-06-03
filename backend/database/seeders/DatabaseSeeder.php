@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             DeporteModalidadSeeder::class,
             InstalacionSeeder::class,
             UserSeeder::class,
+            PartidoSeeder::class,
         ]);
     }
 }

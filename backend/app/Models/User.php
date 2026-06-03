@@ -17,7 +17,7 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'telefono', 'rol'
+        'name', 'email', 'password', 'telefono', 'rol', 'account_type'
     ];
 
     protected $hidden = [
@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->hasOne(Perfil::class, 'user_id');
     }
 
+    public function instalaciones(): HasMany
+    {
+        return $this->hasMany(Instalacion::class, 'user_id');
+    }
+
     public function partidosCreados(): HasMany
     {
         return $this->hasMany(Partido::class, 'user_id');
@@ -56,8 +61,7 @@ class User extends Authenticatable
     public function partidosEnLosQueParticipa(): BelongsToMany
     {
         return $this->belongsToMany(Partido::class, 'partido_user', 'user_id', 'partido_id')
-            ->withPivot('estado', 'unido_en')
-            ->withTimestamps();
+            ->withPivot('estado', 'unido_en');
     }
 
     public function tokens()

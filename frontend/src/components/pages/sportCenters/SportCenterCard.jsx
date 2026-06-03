@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const SportCenterCard = ({ center }) => {
   const opening = center.horario_apertura || '00:00'
@@ -21,6 +22,19 @@ const SportCenterCard = ({ center }) => {
           <span className="font-medium text-slate-800">Municipio</span>
           <span>{center.municipio?.nombre || 'No disponible'}</span>
         </div>
+        <div className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3">
+          <span className="font-medium text-slate-800">Provincia</span>
+          <span>{center.municipio?.provincia?.nombre || 'No disponible'}</span>
+        </div>
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <Link
+          to={`/instalacion/${center.id}`}
+          className="inline-flex min-h-11 w-full max-w-48 items-center justify-center rounded-xl bg-[#AAED43] px-4 text-sm font-semibold text-[#1a2e00] no-underline transition hover:bg-[#91d236]"
+        >
+          Ver partidos
+        </Link>
       </div>
     </article>
   )

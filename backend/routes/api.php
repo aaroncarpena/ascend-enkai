@@ -6,6 +6,8 @@ use App\Http\Controllers\API\AuthApiController;
 use App\Http\Controllers\API\UserApiController;
 use App\Http\Controllers\API\DeporteApiController;
 use App\Http\Controllers\API\InstalacionApiController;
+use App\Http\Controllers\API\MunicipioApiController;
+use App\Http\Controllers\API\PartidoApiController;
 use App\Http\Middleware\Propietario;
 use App\Http\Middleware\RolAdmin;
 
@@ -15,12 +17,24 @@ Route::post('/login', [AuthApiController::class, 'login'])->name('login');
 // Rutas públicas
 Route::get('/deportes', [DeporteApiController::class, 'index']);
 Route::get('/deportes/{id}', [DeporteApiController::class, 'show']);
+Route::get('/deportes/{deporte}/partidos', [PartidoApiController::class, 'bySport']);
 Route::get('/instalacion', [InstalacionApiController::class, 'index']);
 Route::get('/instalacion/{id}', [InstalacionApiController::class, 'show']);
+Route::get('/instalacion/{instalacion}/partidos', [PartidoApiController::class, 'bySportCenter']);
+Route::get('/municipios', [MunicipioApiController::class, 'index']);
+Route::get('/partidos', [PartidoApiController::class, 'index']);
+Route::get('/partidos/{partido}', [PartidoApiController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthApiController::class, 'logout']);
+    Route::get('/perfil', [UserApiController::class, 'profile']);
+    Route::put('/perfil', [UserApiController::class, 'updateProfile']);
+    Route::post('/perfil/avatar', [UserApiController::class, 'uploadAvatar']);
+    Route::get('/mis-partidos', [PartidoApiController::class, 'mine']);
+    Route::post('/partidos', [PartidoApiController::class, 'store']);
+    Route::post('/partidos/{partido}/unirse', [PartidoApiController::class, 'join']);
+    Route::delete('/partidos/{partido}/unirse', [PartidoApiController::class, 'leave']);
 
     Route::get('/users/{id}', [UserApiController::class, 'show'])
         ->middleware(Propietario::class);

@@ -15,7 +15,7 @@ const SportsList = ({ sports, loading }) => {
   if (!sports || sports.length === 0) {
     return (
       <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-8 text-center">
-        <p className="text-slate-600">No hay deportes disponibles</p>
+        <p className="text-slate-600">No hay deportes disponibles.</p>
       </div>
     )
   }

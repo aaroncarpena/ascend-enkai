@@ -22,7 +22,7 @@ const SportCenterProvider = ({ children }) => {
       setCenters(payload)
     } catch (err) {
       console.error('Error al cargar instalaciones:', err)
-      setError('No se pudieron cargar las instalaciones. Intenta de nuevo.')
+      setError('No se pudieron cargar las instalaciones. Inténtalo de nuevo.')
     } finally {
       setLoading(false)
     }

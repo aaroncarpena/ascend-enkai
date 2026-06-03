@@ -13,7 +13,12 @@ class Instalacion extends Model
     use HasFactory;
     protected $table = 'instalacion';
 
-    protected $fillable = ['municipio_id', 'nombre', 'direccion', 'precio', 'horario_apertura', 'horario_clausura'];
+    protected $fillable = ['user_id', 'municipio_id', 'nombre', 'direccion', 'precio', 'horario_apertura', 'horario_clausura'];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function municipio(): BelongsTo
     {

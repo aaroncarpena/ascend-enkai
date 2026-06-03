@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserApiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Instalacion;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
@@ -22,6 +23,12 @@ class AuthApiController extends Controller
                 'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|min:6|confirmed',
                 'telefono' => 'required|string|max:20',
+                'account_type' => 'required|in:user,instalacion',
+                'installation.nombre' => 'required_if:account_type,instalacion|string|max:255',
+                'installation.direccion' => 'required_if:account_type,instalacion|string|max:255',
+                'installation.municipio_id' => 'required_if:account_type,instalacion|nullable|exists:municipio,id',
+                'installation.horario_apertura' => 'required_if:account_type,instalacion|nullable|date_format:H:i',
+                'installation.horario_clausura' => 'required_if:account_type,instalacion|nullable|date_format:H:i|after:installation.horario_apertura',
             ]);
 
             \Log::info('Validación exitosa');
@@ -31,7 +38,24 @@ class AuthApiController extends Controller
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
                 'telefono' => $validated['telefono'],
+                'account_type' => $validated['account_type'],
             ]);
+
+            $user->perfil()->create([
+                'avatar' => $this->defaultAvatar($user->name),
+            ]);
+
+            if ($validated['account_type'] === 'instalacion') {
+                Instalacion::create([
+                    'user_id' => $user->id,
+                    'municipio_id' => $validated['installation']['municipio_id'],
+                    'nombre' => $validated['installation']['nombre'],
+                    'direccion' => $validated['installation']['direccion'],
+                    'precio' => 0,
+                    'horario_apertura' => $validated['installation']['horario_apertura'],
+                    'horario_clausura' => $validated['installation']['horario_clausura'],
+                ]);
+            }
 
             \Log::info('Usuario creado con ID:', ['user_id' => $user->id]);
 
@@ -70,7 +94,7 @@ class AuthApiController extends Controller
             $response = [
                 'access_token' => $token,
                 'token_type' => 'Bearer',
-                'user' => $user,
+                'user' => $user->load('perfil', 'instalaciones'),
                 'debug' => [
                     'user_id' => $user->id,
                     'token_length' => strlen($token),
@@ -88,7 +112,7 @@ class AuthApiController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Error de validación:', $e->errors());
             return response()->json([
-                'message' => 'Validation failed',
+                'message' => 'La validación ha fallado.',
                 'errors' => $e->errors(),
             ], 422);
         } catch (\Illuminate\Database\QueryException $e) {
@@ -97,7 +121,7 @@ class AuthApiController extends Controller
                 'sql' => $e->getSql() ?? 'N/A'
             ]);
             return response()->json([
-                'message' => 'Database error',
+                'message' => 'Error de base de datos.',
                 'error' => $e->getMessage(),
             ], 500);
         } catch (\Exception $e) {
@@ -107,7 +131,7 @@ class AuthApiController extends Controller
                 'line' => $e->getLine()
             ]);
             return response()->json([
-                'message' => 'An unexpected error occurred',
+                'message' => 'Ha ocurrido un error inesperado.',
                 'error' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
@@ -126,7 +150,7 @@ class AuthApiController extends Controller
 
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
             throw ValidationException::withMessages([
-                'login' => ['Credenciales incorrectas'],
+                'login' => ['Credenciales incorrectas.'],
             ]);
         }
 
@@ -135,7 +159,7 @@ class AuthApiController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user
+            'user' => $user->load('perfil', 'instalaciones')
         ]);
     }
 
@@ -145,27 +169,32 @@ class AuthApiController extends Controller
             $user = $request->user();
             if (!$user) {
                 return response()->json([
-                    'message' => 'Usuario no autenticado',
+                    'message' => 'Usuario no autenticado.',
                 ], 401);
             }
 
             $token = $user->currentAccessToken();
             if (!$token) {
                 return response()->json([
-                    'message' => 'Token no encontrado',
+                    'message' => 'Token no encontrado.',
                 ], 401);
             }
 
             $token->delete();
 
             return response()->json([
-                'message' => 'Sesión cerrada correctamente',
+                'message' => 'Sesión cerrada correctamente.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Error al cerrar sesión',
+                'message' => 'Error al cerrar sesión.',
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    private function defaultAvatar(string $name): string
+    {
+        return 'https://ui-avatars.com/api/?background=AAED43&color=1a2e00&name=' . urlencode($name);
     }
 }

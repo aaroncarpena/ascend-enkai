@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { authProvider } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/authContext";
 const useAuthProvider = () => {
-  const ctx = useContext(authProvider);
+  const ctx = useContext(AuthContext);
   if (!ctx) {
     throw new Error("The hook useAuthProvider must be in <AuthProvider>.");
   }

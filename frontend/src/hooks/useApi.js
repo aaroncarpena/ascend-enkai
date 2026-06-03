@@ -16,6 +16,16 @@ const buildHeaders = (token) => {
   return headers
 }
 
+const buildFormHeaders = (token) => {
+  const headers = {
+    Accept: 'application/json',
+  }
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+  return headers
+}
+
 const get = async (endpoint, token = null) => {
   const response = await fetch(buildUrl(endpoint), {
     cache: 'no-store',
@@ -32,6 +42,18 @@ const post = async (endpoint, body, token = null) => {
     method: 'POST',
     headers: buildHeaders(token),
     body: JSON.stringify(body),
+  })
+  if (!response.ok) {
+    throw new Error(await response.text())
+  }
+  return response.json()
+}
+
+const postForm = async (endpoint, body, token = null) => {
+  const response = await fetch(buildUrl(endpoint), {
+    method: 'POST',
+    headers: buildFormHeaders(token),
+    body,
   })
   if (!response.ok) {
     throw new Error(await response.text())
@@ -74,8 +96,8 @@ const del = async (endpoint, token = null) => {
   return response.json()
 }
 
-export { get, post, put, patch, del }
+export { get, post, postForm, put, patch, del }
 
 export const useApi = () => {
-  return { get, post, put, patch, del }
+  return { get, post, postForm, put, patch, del }
 }
