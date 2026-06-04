@@ -37,6 +37,32 @@ class AdminApiTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
     }
 
+    public function test_admin_can_change_other_users_roles_but_not_their_own(): void
+    {
+        $admin = User::factory()->create(['rol' => User::ROLE_ADMIN]);
+        $user = User::factory()->create();
+        Sanctum::actingAs($admin);
+
+        $this->patchJson("/api/admin/users/{$user->id}/role", [
+            'rol' => User::ROLE_ADMIN,
+        ])
+            ->assertOk()
+            ->assertJsonFragment(['rol' => User::ROLE_ADMIN]);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'rol' => User::ROLE_ADMIN,
+        ]);
+
+        $this->patchJson("/api/admin/users/{$admin->id}/role", [
+            'rol' => User::ROLE_USER,
+        ])->assertUnprocessable();
+
+        $this->patchJson("/api/admin/users/{$user->id}/role", [
+            'rol' => 'otro',
+        ])->assertUnprocessable();
+    }
+
     public function test_admin_can_create_update_and_delete_sport_centers(): void
     {
         $admin = User::factory()->create(['rol' => User::ROLE_ADMIN]);

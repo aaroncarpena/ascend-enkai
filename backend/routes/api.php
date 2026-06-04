@@ -61,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::prefix('admin')->group(function () {
             Route::get('/users', [UserApiController::class, 'index']);
+            Route::patch('/users/{user}/role', [UserApiController::class, 'updateRole']);
             Route::delete('/users/{user}', [UserApiController::class, 'destroy']);
 
             Route::get('/instalaciones', [InstalacionApiController::class, 'adminIndex']);

@@ -125,6 +125,23 @@ class UserApiController extends Controller
         return response()->json(['message' => 'Usuario eliminado.']);
     }
 
+    public function updateRole(Request $request, User $user)
+    {
+        if ($request->user()->is($user)) {
+            return response()->json([
+                'message' => 'No puedes cambiar el rol de tu propia cuenta.',
+            ], 422);
+        }
+
+        $validated = $request->validate([
+            'rol' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_USER])],
+        ]);
+
+        $user->forceFill(['rol' => $validated['rol']])->save();
+
+        return $user->only('id', 'name', 'email', 'telefono', 'rol', 'created_at');
+    }
+
     public function addDeporte($userId, $deporteId)
     {
         $user = User::findOrFail($userId);

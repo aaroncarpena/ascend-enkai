@@ -14,6 +14,8 @@ const AdminSportCentersPage = () => {
   const [error, setError] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [editingCenter, setEditingCenter] = useState(null)
+  const [confirmingCenterId, setConfirmingCenterId] = useState(null)
+  const [deletingCenterId, setDeletingCenterId] = useState(null)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -45,11 +47,13 @@ const AdminSportCentersPage = () => {
   }
 
   const createCenter = () => {
+    setConfirmingCenterId(null)
     setEditingCenter(null)
     setShowForm(true)
   }
 
   const editCenter = (center) => {
+    setConfirmingCenterId(null)
     setEditingCenter(center)
     setShowForm(true)
   }
@@ -73,13 +77,7 @@ const AdminSportCentersPage = () => {
   }
 
   const deleteCenter = async (center) => {
-    const confirmed = window.confirm(
-      `¿Eliminar ${center.nombre}? También se eliminarán sus partidos relacionados.`,
-    )
-
-    if (!confirmed) {
-      return
-    }
+    setDeletingCenterId(center.id)
 
     try {
       await del(`admin/instalaciones/${center.id}`, token)
@@ -88,6 +86,9 @@ const AdminSportCentersPage = () => {
     } catch (err) {
       console.error('Error al eliminar instalación:', err)
       notification.error('No se pudo eliminar la instalación.')
+    } finally {
+      setConfirmingCenterId(null)
+      setDeletingCenterId(null)
     }
   }
 
@@ -166,22 +167,48 @@ const AdminSportCentersPage = () => {
                     </div>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() => editCenter(center)}
-                      className="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => deleteCenter(center)}
-                      className="inline-flex min-h-10 items-center justify-center rounded-xl border border-rose-200 px-4 text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
+                  {confirmingCenterId === center.id ? (
+                    <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50 p-4">
+                      <p className="text-sm font-medium text-rose-800">
+                        También se eliminarán los partidos relacionados.
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-3">
+                        <button
+                          type="button"
+                          disabled={deletingCenterId === center.id}
+                          onClick={() => deleteCenter(center)}
+                          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-semibold text-white transition hover:bg-rose-700 disabled:opacity-60"
+                        >
+                          {deletingCenterId === center.id ? 'Eliminando...' : 'Confirmar eliminación'}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={deletingCenterId === center.id}
+                          onClick={() => setConfirmingCenterId(null)}
+                          className="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <button
+                        type="button"
+                        onClick={() => editCenter(center)}
+                        className="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmingCenterId(center.id)}
+                        className="inline-flex min-h-10 items-center justify-center rounded-xl border border-rose-200 px-4 text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  )}
                 </article>
               ))
             )}
