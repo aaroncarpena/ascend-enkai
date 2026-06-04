@@ -1,9 +1,5 @@
 import React from 'react'
-
-const getInitials = (name = '') => {
-  const parts = name.trim().split(/\s+/).filter(Boolean)
-  return (parts[0]?.[0] || 'U').toUpperCase()
-}
+import { getInitial } from '../../../lib/utils.js'
 
 const ProfileSummary = ({ profile }) => {
   const perfil = profile?.perfil
@@ -20,7 +16,7 @@ const ProfileSummary = ({ profile }) => {
           />
         ) : (
           <div className="flex h-28 w-28 items-center justify-center rounded-full bg-[#AAED43] text-3xl font-bold text-[#1a2e00]">
-            {getInitials(profile?.name)}
+            {getInitial(profile?.name)}
           </div>
         )}
 

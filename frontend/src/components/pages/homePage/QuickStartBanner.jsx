@@ -7,7 +7,7 @@ const QuickStartBanner = () => {
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1F1F1F]/70">¿Aún no tienes cuenta?</p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-950">Regístrate y organiza tu primera reserva.</h2>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-950">Regístrate y organiza tu primer partido.</h2>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link className="inline-flex items-center justify-center rounded-full bg-[#AAED43] px-6 py-3 text-sm font-semibold text-[#1a2e00] transition hover:bg-[#91d236]" to="/registro">

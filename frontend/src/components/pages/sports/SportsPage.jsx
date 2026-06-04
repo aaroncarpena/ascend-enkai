@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSport } from '../../../hooks/useSport'
-import SportsList from '../../../components/sports/SportsList.jsx'
+import SportsList from './SportsList.jsx'
 
 const SportsPage = () => {
   const { sports, loading, error, fetchSports } = useSport()
@@ -32,7 +32,7 @@ const SportsPage = () => {
 
   return (
     <main className="min-h-screen bg-[#F5F6F8] pt-28 pb-20">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <section className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -50,7 +50,7 @@ const SportsPage = () => {
             </div>
           )}
 
-          <div className="mt-8 grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+          <div className="mt-8 grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
             <label className="grid gap-2 text-sm font-medium text-slate-700">
               Modalidad
               <select

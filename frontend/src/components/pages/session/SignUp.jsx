@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import useAuthProvider from '../../../hooks/useAuthProvider.js'
-import { useApi } from '../../../hooks/useApi.js'
+import { get, getApiCollection } from '../../../lib/apiClient.js'
+import { findById } from '../../../lib/utils.js'
 
 const SignUp = () => {
   const { defaultDataSesion, register: registerUser, error } = useAuthProvider()
-  const { get } = useApi()
   const [municipios, setMunicipios] = useState([])
   const {
     register,
@@ -22,17 +22,17 @@ const SignUp = () => {
     const loadMunicipios = async () => {
       try {
         const data = await get('municipios')
-        setMunicipios(Array.isArray(data) ? data : data?.data || [])
+        setMunicipios(getApiCollection(data))
       } catch (err) {
         console.error('Error al cargar municipios:', err)
       }
     }
 
     loadMunicipios()
-  }, [get])
+  }, [])
 
   const selectedMunicipio = useMemo(() => {
-    return municipios.find((municipio) => String(municipio.id) === String(municipioId))
+    return findById(municipios, municipioId)
   }, [municipioId, municipios])
 
   const onSubmit = async (data) => {

@@ -7,7 +7,6 @@ const groups = [
     links: [
       { label: 'Instalaciones', to: '/instalaciones' },
       { label: 'Deportes', to: '/deportes' },
-      { label: 'Mis partidos', to: '/mis-partidos' },
     ],
   },
   {

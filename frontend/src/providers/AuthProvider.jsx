@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { createContext, useCallback } from 'react'
 import useSession from '../hooks/useSession.js'
 import useNotification from '../hooks/useNotification.js'
-import { AuthContext } from './authContext.js'
+
+const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
   const defaultDataSesion = {
@@ -22,6 +23,11 @@ const AuthProvider = ({ children }) => {
 
   const session = useSession()
   const notification = useNotification()
+  const {
+    loadProfile: loadProfileSession,
+    saveProfile: saveProfileSession,
+    uploadAvatar: uploadAvatarSession,
+  } = session
 
   const register = async (data) => {
     try {
@@ -55,12 +61,56 @@ const AuthProvider = ({ children }) => {
     }
   }
 
+  const loadProfile = useCallback(async () => {
+    try {
+      return await loadProfileSession()
+    } catch (error) {
+      console.error('Error al cargar perfil:', error)
+      notification.error('No se pudo cargar tu perfil.')
+      return null
+    }
+  }, [loadProfileSession, notification])
+
+  const saveProfile = useCallback(
+    async (data) => {
+      try {
+        const response = await saveProfileSession(data)
+        notification.success('Tu perfil se ha actualizado correctamente.', 'Perfil actualizado')
+        return response
+      } catch (error) {
+        console.error('Error al guardar perfil:', error)
+        notification.error('No se pudo guardar el perfil. Revisa los datos.')
+        return null
+      }
+    },
+    [notification, saveProfileSession],
+  )
+
+  const uploadAvatar = async (file) => {
+    try {
+      const response = await uploadAvatarSession(file)
+
+      if (response) {
+        notification.success('Tu avatar se ha actualizado correctamente.', 'Avatar actualizado')
+      }
+
+      return response
+    } catch (error) {
+      console.error('Error al subir avatar:', error)
+      notification.error('Usa JPG, PNG o WebP de menos de 4 MB.', 'No se pudo subir la imagen')
+      return null
+    }
+  }
+
   const value = {
     defaultDataSesion,
     ...session,
     register,
     login,
     logout,
+    loadProfile,
+    saveProfile,
+    uploadAvatar,
   }
 
   return (
@@ -69,4 +119,5 @@ const AuthProvider = ({ children }) => {
 }
 
 export default AuthProvider
+export { AuthContext }
 

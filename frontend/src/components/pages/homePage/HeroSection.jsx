@@ -11,10 +11,10 @@ const HeroSection = () => {
           </div>
           <div className="space-y-4">
             <h1 className="text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
-              Reserva canchas, encuentra deportes y crea encuentros en un instante.
+              Encuentra deportes, instalaciones y partidos en un instante.
             </h1>
             <p className="max-w-2xl text-base leading-7 text-slate-600">
-              Descubre instalaciones cercanas, elige el deporte que te gusta y confirma tu reserva con facilidad. Todo desde una misma plataforma pensada para grupos deportivos y campeonatos espontáneos.
+              Descubre instalaciones cercanas, elige el deporte que te gusta y encuentra gente con quien jugar. Todo desde una misma plataforma pensada para grupos deportivos y campeonatos espontáneos.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
@@ -41,8 +41,8 @@ const HeroSection = () => {
           </article>
           <article className="rounded-[1.5rem] border border-slate-200 bg-[#F7FFF8] p-6 shadow-inner shadow-slate-100">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1F1F1F]/80">Todo en un lugar</p>
-            <h2 className="mt-4 text-2xl font-bold text-slate-950">Reserva segura</h2>
-            <p className="mt-3 text-slate-600">Gestiona tus bookings con confirmación instantánea y recibe alertas cuando la cancha está lista.</p>
+            <h2 className="mt-4 text-2xl font-bold text-slate-950">Partidos abiertos</h2>
+            <p className="mt-3 text-slate-600">Crea encuentros o únete a partidos disponibles según tu deporte y nivel.</p>
           </article>
         </div>
       </div>

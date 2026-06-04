@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom'
 import { useMatch } from '../../../hooks/useMatch'
 import { useSport } from '../../../hooks/useSport'
 import { useSportCenter } from '../../../hooks/useSportCenter'
+import { getMatchLevels } from '../../../lib/utils.js'
 import CreateMatchForm from './CreateMatchForm.jsx'
 import MatchFilters from './MatchFilters.jsx'
 import MatchList from './MatchList.jsx'
 
-const MatchPage = () => {
-  const { sportId } = useParams()
+const MatchPageContent = ({ sportId }) => {
   const [showCreateForm, setShowCreateForm] = useState(false)
   const { sports, fetchSports, getSportById } = useSport()
   const { centers, fetchSportCenters } = useSportCenter()
@@ -41,15 +41,10 @@ const MatchPage = () => {
     resetFilters(sportId)
   }, [resetFilters, sportId])
 
-  useEffect(() => {
-    setShowCreateForm(false)
-  }, [sportId])
-
   const sport = getSportById(Number(sportId))
 
   const levels = useMemo(() => {
-    const baseLevels = ['Principiante', 'Intermedio', 'Avanzado']
-    return [...new Set([...baseLevels, ...matches.map((match) => match.nivel).filter(Boolean)])]
+    return getMatchLevels(matches)
   }, [matches])
 
   const matchCenters = useMemo(() => {
@@ -59,8 +54,11 @@ const MatchPage = () => {
   }, [centers, matches])
 
   const handleCreate = async (formData) => {
-    await createMatch(sportId, formData)
-    setShowCreateForm(false)
+    const created = await createMatch(sportId, formData)
+
+    if (created) {
+      setShowCreateForm(false)
+    }
   }
 
   return (
@@ -128,6 +126,12 @@ const MatchPage = () => {
       </div>
     </main>
   )
+}
+
+const MatchPage = () => {
+  const { sportId } = useParams()
+
+  return <MatchPageContent key={sportId} sportId={sportId} />
 }
 
 export default MatchPage

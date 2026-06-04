@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom'
 import { useMatch } from '../../../hooks/useMatch'
 import { useSport } from '../../../hooks/useSport'
 import { useSportCenter } from '../../../hooks/useSportCenter'
+import { getMatchLevels } from '../../../lib/utils.js'
 import CreateMatchForm from '../match/CreateMatchForm.jsx'
 import MatchFilters from '../match/MatchFilters.jsx'
 import MatchList from '../match/MatchList.jsx'
 
-const SportCenterMatchesPage = () => {
-  const { sportCenterId } = useParams()
+const SportCenterMatchesPageContent = ({ sportCenterId }) => {
   const [showCreateForm, setShowCreateForm] = useState(false)
   const { centers, fetchSportCenters, getSportCenterById } = useSportCenter()
   const { sports, fetchSports } = useSport()
@@ -41,20 +41,18 @@ const SportCenterMatchesPage = () => {
     resetSportCenterFilters(sportCenterId)
   }, [resetSportCenterFilters, sportCenterId])
 
-  useEffect(() => {
-    setShowCreateForm(false)
-  }, [sportCenterId])
-
   const center = getSportCenterById(sportCenterId)
 
   const levels = useMemo(() => {
-    const baseLevels = ['Principiante', 'Intermedio', 'Avanzado']
-    return [...new Set([...baseLevels, ...matches.map((match) => match.nivel).filter(Boolean)])]
+    return getMatchLevels(matches)
   }, [matches])
 
   const handleCreate = async (formData) => {
-    await createSportCenterMatch(sportCenterId, formData)
-    setShowCreateForm(false)
+    const created = await createSportCenterMatch(sportCenterId, formData)
+
+    if (created) {
+      setShowCreateForm(false)
+    }
   }
 
   return (
@@ -90,7 +88,7 @@ const SportCenterMatchesPage = () => {
               <CreateMatchForm
                 centers={centers}
                 sports={sports}
-                fixedCenterId={sportCenterId}
+                showCenterSelect={false}
                 showSportSelect
                 onCancel={() => setShowCreateForm(false)}
                 onSubmit={handleCreate}
@@ -135,6 +133,12 @@ const SportCenterMatchesPage = () => {
       </div>
     </main>
   )
+}
+
+const SportCenterMatchesPage = () => {
+  const { sportCenterId } = useParams()
+
+  return <SportCenterMatchesPageContent key={sportCenterId} sportCenterId={sportCenterId} />
 }
 
 export default SportCenterMatchesPage

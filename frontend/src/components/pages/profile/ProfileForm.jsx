@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
+import { findById, getInitial } from '../../../lib/utils.js'
 
-const getInitial = (name = '') => (name.trim()[0] || 'U').toUpperCase()
+const getFormValues = (profile) => ({
+  name: profile?.name || '',
+  email: profile?.email || '',
+  telefono: profile?.telefono || '',
+  municipio_id: profile?.perfil?.municipio_id || '',
+  deporteFavorito: profile?.perfil?.deporteFavorito || '',
+})
 
-const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChange, onAvatarUpload, onSubmit }) => {
-  const selectedMunicipio = municipios.find((municipio) => String(municipio.id) === String(form.municipio_id))
+const ProfileForm = ({ profile, municipios, sports, uploadingAvatar, onAvatarUpload, onSubmit }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { isSubmitting },
+  } = useForm({ defaultValues: getFormValues(profile) })
+
+  useEffect(() => {
+    reset(getFormValues(profile))
+  }, [profile, reset])
+
+  const name = useWatch({ control, name: 'name' })
+  const municipioId = useWatch({ control, name: 'municipio_id' })
+  const selectedMunicipio = findById(municipios, municipioId)
   const provinceName = selectedMunicipio?.provincia?.nombre || 'Selecciona un municipio.'
+  const avatar = profile?.perfil?.avatar
   const uploadButtonClass = [
     'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-800 transition',
     uploadingAvatar ? 'cursor-not-allowed opacity-70' : 'cursor-pointer hover:border-[#AAED43]',
@@ -17,15 +40,17 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm"
+    >
       <div className="grid gap-5 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-medium text-slate-700">
           Usuario
           <input
             required
             type="text"
-            value={form.name}
-            onChange={(event) => onChange('name', event.target.value)}
+            {...register('name')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -35,8 +60,7 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
           <input
             required
             type="email"
-            value={form.email}
-            onChange={(event) => onChange('email', event.target.value)}
+            {...register('email')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -45,8 +69,7 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
           Teléfono
           <input
             type="tel"
-            value={form.telefono}
-            onChange={(event) => onChange('telefono', event.target.value)}
+            {...register('telefono')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -54,14 +77,13 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
         <label className="grid gap-2 text-sm font-medium text-slate-700">
           Deporte favorito
           <select
-            value={form.deporteFavorito}
-            onChange={(event) => onChange('deporteFavorito', event.target.value)}
+            {...register('deporteFavorito')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           >
             <option value="">Sin favorito</option>
             {sports.map((sport) => (
-              <option key={sport} value={sport}>
-                {sport}
+              <option key={sport.id} value={sport.nombre}>
+                {sport.nombre}
               </option>
             ))}
           </select>
@@ -71,19 +93,19 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
           Avatar
           <div className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
-              {form.avatar ? (
+              {avatar ? (
                 <img
-                  src={form.avatar}
+                  src={avatar}
                   alt="Avatar actual"
                   className="h-16 w-16 rounded-full border border-slate-200 bg-white object-cover"
                 />
               ) : (
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#AAED43] text-xl font-bold text-[#1a2e00]">
-                  {getInitial(form.name)}
+                  {getInitial(name)}
                 </div>
               )}
               <div>
-                <p className="text-sm font-semibold text-slate-900">{form.name || 'Usuario'}</p>
+                <p className="text-sm font-semibold text-slate-900">{name || 'Usuario'}</p>
                 <p className="text-xs font-normal text-slate-500">JPG, PNG o WebP. Máximo 4 MB.</p>
               </div>
             </div>
@@ -105,8 +127,7 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
         <label className="grid gap-2 text-sm font-medium text-slate-700">
           Municipio
           <select
-            value={form.municipio_id}
-            onChange={(event) => onChange('municipio_id', event.target.value)}
+            {...register('municipio_id')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           >
             <option value="">Sin municipio</option>
@@ -133,11 +154,11 @@ const ProfileForm = ({ form, municipios, sports, saving, uploadingAvatar, onChan
       <div className="mt-6 flex justify-end">
         <button
           type="submit"
-          disabled={saving}
+          disabled={isSubmitting}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#AAED43] px-5 text-sm font-semibold text-[#1a2e00] transition hover:bg-[#91d236] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500"
         >
           <i className="pi pi-save text-sm" aria-hidden="true" />
-          {saving ? 'Guardando...' : 'Guardar perfil'}
+          {isSubmitting ? 'Guardando...' : 'Guardar perfil'}
         </button>
       </div>
     </form>

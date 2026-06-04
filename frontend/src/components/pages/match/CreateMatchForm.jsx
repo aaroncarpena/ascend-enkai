@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 
 const initialForm = {
   deporte_id: '',
@@ -14,46 +15,29 @@ const initialForm = {
 const CreateMatchForm = ({
   centers,
   sports = [],
-  fixedCenterId = '',
+  showCenterSelect = true,
   showSportSelect = false,
   onCancel,
   onSubmit,
 }) => {
-  const [form, setForm] = useState({
-    ...initialForm,
-    instalacion_id: fixedCenterId ? String(fixedCenterId) : '',
-  })
-  const [submitting, setSubmitting] = useState(false)
-
-  const updateField = (key, value) => {
-    setForm((current) => ({
-      ...current,
-      [key]: value,
-    }))
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    setSubmitting(true)
-
-    try {
-      await onSubmit(form)
-      setForm(initialForm)
-    } finally {
-      setSubmitting(false)
-    }
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm({ defaultValues: initialForm })
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm"
+    >
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {showSportSelect && (
           <label className="grid gap-2 text-sm font-medium text-slate-700 xl:col-span-2">
             Deporte
             <select
               required
-              value={form.deporte_id}
-              onChange={(event) => updateField('deporte_id', event.target.value)}
+              {...register('deporte_id')}
               className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
             >
               <option value="">Selecciona un deporte</option>
@@ -66,13 +50,12 @@ const CreateMatchForm = ({
           </label>
         )}
 
-        {!fixedCenterId && (
+        {showCenterSelect && (
           <label className="grid gap-2 text-sm font-medium text-slate-700 xl:col-span-2">
             Instalación
             <select
               required
-              value={form.instalacion_id}
-              onChange={(event) => updateField('instalacion_id', event.target.value)}
+              {...register('instalacion_id')}
               className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
             >
               <option value="">Selecciona una instalación</option>
@@ -90,8 +73,7 @@ const CreateMatchForm = ({
           <input
             required
             type="date"
-            value={form.fecha}
-            onChange={(event) => updateField('fecha', event.target.value)}
+            {...register('fecha')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -99,8 +81,7 @@ const CreateMatchForm = ({
         <label className="grid gap-2 text-sm font-medium text-slate-700">
           Nivel
           <select
-            value={form.nivel}
-            onChange={(event) => updateField('nivel', event.target.value)}
+            {...register('nivel')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           >
             <option value="Principiante">Principiante</option>
@@ -114,8 +95,7 @@ const CreateMatchForm = ({
           <input
             required
             type="time"
-            value={form.hora_inicio}
-            onChange={(event) => updateField('hora_inicio', event.target.value)}
+            {...register('hora_inicio')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -125,8 +105,7 @@ const CreateMatchForm = ({
           <input
             required
             type="time"
-            value={form.hora_fin}
-            onChange={(event) => updateField('hora_fin', event.target.value)}
+            {...register('hora_fin')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -138,8 +117,7 @@ const CreateMatchForm = ({
             type="number"
             min="2"
             max="50"
-            value={form.max_jugadores}
-            onChange={(event) => updateField('max_jugadores', event.target.value)}
+            {...register('max_jugadores')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -148,8 +126,7 @@ const CreateMatchForm = ({
           Descripción
           <textarea
             rows="3"
-            value={form.descripcion}
-            onChange={(event) => updateField('descripcion', event.target.value)}
+            {...register('descripcion')}
             className="resize-none rounded-xl border border-slate-200 px-3 py-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -165,11 +142,11 @@ const CreateMatchForm = ({
         </button>
         <button
           type="submit"
-          disabled={submitting}
+          disabled={isSubmitting}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
         >
           <i className="pi pi-check text-sm" aria-hidden="true" />
-          Guardar
+          {isSubmitting ? 'Guardando...' : 'Guardar'}
         </button>
       </div>
     </form>

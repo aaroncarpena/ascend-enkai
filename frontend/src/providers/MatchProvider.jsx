@@ -1,20 +1,16 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { createContext, useCallback, useRef, useState } from 'react'
 import useAuthProvider from '../hooks/useAuthProvider'
 import useNotification from '../hooks/useNotification.js'
-import { useApi } from '../hooks/useApi'
-import { MatchContext, defaultFilters } from './matchContext'
+import { del, get, getApiCollection, post } from '../lib/apiClient.js'
+import { buildQueryString } from '../lib/utils.js'
 
-const buildQuery = (filters) => {
-  const params = new URLSearchParams()
+const MatchContext = createContext()
 
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value) {
-      params.set(key, value)
-    }
-  })
-
-  const query = params.toString()
-  return query ? `?${query}` : ''
+const defaultFilters = {
+  nivel: '',
+  fecha: '',
+  deporte_id: '',
+  instalacion_id: '',
 }
 
 const clearSportCenterFromFilters = (filters) => ({
@@ -29,15 +25,11 @@ const clearSportFromFilters = (filters) => ({
 
 const MatchProvider = ({ children }) => {
   const [matches, setMatches] = useState([])
-  const [myMatches, setMyMatches] = useState([])
   const [filters, setFilters] = useState(defaultFilters)
   const filtersRef = useRef(defaultFilters)
   const currentListRef = useRef({ type: 'sport', id: null })
   const [loading, setLoading] = useState(false)
-  const [myMatchesLoading, setMyMatchesLoading] = useState(false)
   const [error, setError] = useState('')
-  const [myMatchesError, setMyMatchesError] = useState('')
-  const { get, post, del } = useApi()
   const { token, user, isAuthenticated } = useAuthProvider()
   const notification = useNotification()
 
@@ -49,8 +41,8 @@ const MatchProvider = ({ children }) => {
       setError('')
 
       try {
-        const response = await get(`deportes/${sportId}/partidos${buildQuery(sportFilters)}`)
-        setMatches(Array.isArray(response) ? response : response?.data || [])
+        const response = await get(`deportes/${sportId}/partidos${buildQueryString(sportFilters)}`)
+        setMatches(getApiCollection(response))
       } catch (err) {
         console.error('Error al cargar partidos:', err)
         setError('No se pudieron cargar los partidos.')
@@ -58,7 +50,7 @@ const MatchProvider = ({ children }) => {
         setLoading(false)
       }
     },
-    [get],
+    [],
   )
 
   const fetchMatchesBySportCenter = useCallback(
@@ -69,8 +61,8 @@ const MatchProvider = ({ children }) => {
       setError('')
 
       try {
-        const response = await get(`instalacion/${sportCenterId}/partidos${buildQuery(sportCenterFilters)}`)
-        setMatches(Array.isArray(response) ? response : response?.data || [])
+        const response = await get(`instalacion/${sportCenterId}/partidos${buildQueryString(sportCenterFilters)}`)
+        setMatches(getApiCollection(response))
       } catch (err) {
         console.error('Error al cargar partidos de la instalacion:', err)
         setError('No se pudieron cargar los partidos.')
@@ -78,10 +70,10 @@ const MatchProvider = ({ children }) => {
         setLoading(false)
       }
     },
-    [get],
+    [],
   )
 
-  const refreshCurrentMatches = useCallback(async () => {
+  const refreshCurrentMatches = async () => {
     const currentList = currentListRef.current
 
     if (!currentList.id) {
@@ -94,27 +86,21 @@ const MatchProvider = ({ children }) => {
     }
 
     await fetchMatches(currentList.id)
-  }, [fetchMatches, fetchMatchesBySportCenter])
+  }
 
-  const updateFilters = useCallback(
-    (sportId, nextFilters) => {
-      const sportFilters = clearSportFromFilters(nextFilters)
-      filtersRef.current = sportFilters
-      setFilters(sportFilters)
-      fetchMatches(sportId, sportFilters)
-    },
-    [fetchMatches],
-  )
+  const updateFilters = (sportId, nextFilters) => {
+    const sportFilters = clearSportFromFilters(nextFilters)
+    filtersRef.current = sportFilters
+    setFilters(sportFilters)
+    fetchMatches(sportId, sportFilters)
+  }
 
-  const updateSportCenterFilters = useCallback(
-    (sportCenterId, nextFilters) => {
-      const sportCenterFilters = clearSportCenterFromFilters(nextFilters)
-      filtersRef.current = sportCenterFilters
-      setFilters(sportCenterFilters)
-      fetchMatchesBySportCenter(sportCenterId, sportCenterFilters)
-    },
-    [fetchMatchesBySportCenter],
-  )
+  const updateSportCenterFilters = (sportCenterId, nextFilters) => {
+    const sportCenterFilters = clearSportCenterFromFilters(nextFilters)
+    filtersRef.current = sportCenterFilters
+    setFilters(sportCenterFilters)
+    fetchMatchesBySportCenter(sportCenterId, sportCenterFilters)
+  }
 
   const resetSportCenterFilters = useCallback(
     (sportCenterId) => {
@@ -134,131 +120,90 @@ const MatchProvider = ({ children }) => {
     [fetchMatches],
   )
 
-  const runProtectedAction = useCallback(
-    async (action) => {
-      if (!isAuthenticated || !token) {
-        const message = 'Inicia sesion para realizar esta accion.'
-        setError(message)
-        notification.info('Inicia sesion para continuar.', 'Accion protegida')
-        return null
-      }
-
-      setError('')
-      try {
-        return await action()
-      } catch (err) {
-        console.error('Error en accion de partidos:', err)
-        setError(err.message || 'No se pudo completar la accion.')
-        notification.error('No se pudo completar la accion. Intentalo de nuevo.')
-        return null
-      }
-    },
-    [isAuthenticated, notification, token],
-  )
-
-  const fetchMyMatches = useCallback(async () => {
+  const runProtectedAction = async (action) => {
     if (!isAuthenticated || !token) {
-      setMyMatches([])
-      return
+      const message = 'Inicia sesion para realizar esta accion.'
+      setError(message)
+      notification.info('Inicia sesion para continuar.', 'Accion protegida')
+      return null
     }
 
-    setMyMatchesLoading(true)
-    setMyMatchesError('')
-
+    setError('')
     try {
-      const response = await get('mis-partidos', token)
-      setMyMatches(Array.isArray(response) ? response : response?.data || [])
+      return await action()
     } catch (err) {
-      console.error('Error al cargar mis partidos:', err)
-      setMyMatchesError('No se pudieron cargar tus partidos.')
-    } finally {
-      setMyMatchesLoading(false)
+      console.error('Error en accion de partidos:', err)
+      setError(err.message || 'No se pudo completar la accion.')
+      notification.error('No se pudo completar la accion. Intentalo de nuevo.')
+      return null
     }
-  }, [get, isAuthenticated, token])
+  }
 
-  const createMatch = useCallback(
-    async (sportId, formData) => {
-      await runProtectedAction(async () => {
-        await post(
-          'partidos',
-          {
-            ...formData,
-            deporte_id: Number(sportId),
-            instalacion_id: Number(formData.instalacion_id),
-            max_jugadores: Number(formData.max_jugadores),
-          },
-          token,
-        )
+  const createMatch = async (sportId, formData) => {
+    return runProtectedAction(async () => {
+      await post(
+        'partidos',
+        {
+          ...formData,
+          deporte_id: Number(sportId),
+          instalacion_id: Number(formData.instalacion_id),
+          max_jugadores: Number(formData.max_jugadores),
+        },
+        token,
+      )
 
-        await fetchMatches(sportId)
-        await fetchMyMatches()
-        notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
-      })
-    },
-    [fetchMatches, fetchMyMatches, notification, post, runProtectedAction, token],
-  )
+      await fetchMatches(sportId)
+      notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
+      return true
+    })
+  }
 
-  const createSportCenterMatch = useCallback(
-    async (sportCenterId, formData) => {
-      await runProtectedAction(async () => {
-        await post(
-          'partidos',
-          {
-            ...formData,
-            deporte_id: Number(formData.deporte_id),
-            instalacion_id: Number(sportCenterId),
-            max_jugadores: Number(formData.max_jugadores),
-          },
-          token,
-        )
+  const createSportCenterMatch = async (sportCenterId, formData) => {
+    return runProtectedAction(async () => {
+      await post(
+        'partidos',
+        {
+          ...formData,
+          deporte_id: Number(formData.deporte_id),
+          instalacion_id: Number(sportCenterId),
+          max_jugadores: Number(formData.max_jugadores),
+        },
+        token,
+      )
 
-        await fetchMatchesBySportCenter(sportCenterId)
-        await fetchMyMatches()
-        notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
-      })
-    },
-    [fetchMatchesBySportCenter, fetchMyMatches, notification, post, runProtectedAction, token],
-  )
+      await fetchMatchesBySportCenter(sportCenterId)
+      notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
+      return true
+    })
+  }
 
-  const joinMatch = useCallback(
-    async (listId, matchId) => {
-      await runProtectedAction(async () => {
-        await post(`partidos/${matchId}/unirse`, {}, token)
-        await refreshCurrentMatches(listId)
-        await fetchMyMatches()
-        notification.success('Te has unido al partido.', 'Asistencia confirmada')
-      })
-    },
-    [fetchMyMatches, notification, post, refreshCurrentMatches, runProtectedAction, token],
-  )
+  const joinMatch = async (listId, matchId) => {
+    await runProtectedAction(async () => {
+      await post(`partidos/${matchId}/unirse`, {}, token)
+      await refreshCurrentMatches(listId)
+      notification.success('Te has unido al partido.', 'Asistencia confirmada')
+    })
+  }
 
-  const leaveMatch = useCallback(
-    async (listId, matchId) => {
-      await runProtectedAction(async () => {
-        const response = await del(`partidos/${matchId}/unirse`, token)
-        await refreshCurrentMatches(listId)
-        await fetchMyMatches()
-        notification.info(
-          response?.message || 'Te has desapuntado del partido.',
-          'Asistencia cancelada',
-        )
-      })
-    },
-    [del, fetchMyMatches, notification, refreshCurrentMatches, runProtectedAction, token],
-  )
+  const leaveMatch = async (listId, matchId) => {
+    await runProtectedAction(async () => {
+      const response = await del(`partidos/${matchId}/unirse`, token)
+      await refreshCurrentMatches(listId)
+      notification.info(
+        response?.message || 'Te has desapuntado del partido.',
+        'Asistencia cancelada',
+      )
+    })
+  }
 
   const value = {
     matches,
-    myMatches,
     filters,
     loading,
-    myMatchesLoading,
     error,
-    myMatchesError,
     user,
     fetchMatches,
     fetchMatchesBySportCenter,
-    fetchMyMatches,
     updateFilters,
     updateSportCenterFilters,
     resetFilters,
@@ -273,3 +218,4 @@ const MatchProvider = ({ children }) => {
 }
 
 export default MatchProvider
+export { MatchContext }

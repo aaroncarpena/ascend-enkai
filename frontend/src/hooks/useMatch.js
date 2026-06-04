@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { MatchContext } from '../providers/matchContext'
+import { MatchContext } from '../providers/MatchProvider.jsx'
 
 export const useMatch = () => {
   const context = useContext(MatchContext)

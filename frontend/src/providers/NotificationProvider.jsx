@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { NotificationContext } from './notificationContext.js'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
+
+const NotificationContext = createContext()
 
 const styles = {
   success: {
@@ -84,3 +85,4 @@ const NotificationProvider = ({ children }) => {
 }
 
 export default NotificationProvider
+export { NotificationContext }

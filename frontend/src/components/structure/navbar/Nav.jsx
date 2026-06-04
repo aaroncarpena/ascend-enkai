@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthProvider from '../../../hooks/useAuthProvider'
-
-const getInitials = (name = '') => {
-  return (name.trim()[0] || 'U').toUpperCase()
-}
+import { getInitial } from '../../../lib/utils.js'
 
 const Nav = () => {
   const { user, logout } = useAuthProvider()
@@ -48,11 +45,6 @@ const Nav = () => {
             Instalaciones
           </Link>
 
-          {user && (
-            <Link className="text-sm text-[#1F1F1F] no-underline transition-colors duration-150 hover:text-[#AAED43]" to="/mis-partidos">
-              Mis partidos
-            </Link>
-          )}
         </div>
 
         {user ? (
@@ -72,7 +64,7 @@ const Nav = () => {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                getInitials(user.name)
+                getInitial(user.name)
               )}
             </button>
 

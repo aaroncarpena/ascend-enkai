@@ -14,8 +14,8 @@ const highlights = [
   },
   {
     title: 'Sin complicaciones',
-    category: 'Reservas',
-    description: 'Planifica partidos y encuentros con confirmación clara y administración fácil de tus reservas.',
+    category: 'Partidos',
+    description: 'Crea partidos, encuentra jugadores y organiza encuentros de forma sencilla.',
   },
 ]
 

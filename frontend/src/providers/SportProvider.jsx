@@ -1,5 +1,6 @@
 import React, { createContext, useState, useCallback } from 'react'
-import { useApi } from '../hooks/useApi'
+import { get } from '../lib/apiClient.js'
+import { findById } from '../lib/utils.js'
 
 const SportContext = createContext()
 
@@ -7,8 +8,6 @@ const SportProvider = ({ children }) => {
   const [sports, setSports] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { get } = useApi()
-
   const fetchSports = useCallback(async () => {
     setLoading(true)
     setError(null)
@@ -21,10 +20,10 @@ const SportProvider = ({ children }) => {
     } finally {
       setLoading(false)
     }
-  }, [get])
+  }, [])
 
   const getSportById = useCallback((id) => {
-    return sports.find(sport => sport.id === id)
+    return findById(sports, id)
   }, [sports])
 
   const value = {

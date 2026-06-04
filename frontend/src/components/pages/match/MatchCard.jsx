@@ -1,19 +1,6 @@
 import React from 'react'
+import { formatDate, formatTime } from '../../../lib/utils.js'
 import PlayerList from './PlayerList.jsx'
-
-const formatHour = (hour) => (hour ? hour.slice(0, 5) : '--:--')
-
-const formatDate = (date) => {
-  if (!date) {
-    return 'Fecha pendiente'
-  }
-
-  return new Intl.DateTimeFormat('es-ES', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(new Date(date))
-}
 
 const MatchCard = ({
   match,
@@ -53,12 +40,14 @@ const MatchCard = ({
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
         <div className="rounded-xl bg-slate-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Fecha</p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">{formatDate(match.fecha)}</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
+            {formatDate(match.fecha, 'Fecha pendiente')}
+          </p>
         </div>
         <div className="rounded-xl bg-slate-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Hora</p>
           <p className="mt-1 text-sm font-semibold text-slate-900">
-            {formatHour(match.hora_inicio)} - {formatHour(match.hora_fin)}
+            {formatTime(match.hora_inicio)} - {formatTime(match.hora_fin)}
           </p>
         </div>
         <div className="rounded-xl bg-slate-50 px-4 py-3">
