@@ -23,8 +23,11 @@ class InstalacionApiController extends Controller
 
     public function store(StoreInstalacionRequest $request)
     {
+        $data = $request->validated();
+        $data['precio'] = 0;
+
         return response()->json(
-            Instalacion::create($request->validated())->load('municipio.provincia'),
+            Instalacion::create($data)->load('municipio.provincia'),
             201,
         );
     }

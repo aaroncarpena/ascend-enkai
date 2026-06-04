@@ -16,8 +16,8 @@ class AuthApiController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'telefono' => 'required|string|max:20',
+            'password' => 'required|string|min:6|max:255|confirmed',
+            'telefono' => ['required', 'regex:/^[0-9]{9}$/'],
         ]);
 
         $user = User::create([

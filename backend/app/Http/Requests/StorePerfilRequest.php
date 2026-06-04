@@ -14,9 +14,9 @@ class StorePerfilRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'nullable|url',
-            'municipio_id' => 'required|exists:municipio,id',
-            'deporteFavorito' => 'nullable|string|max:100',
+            'avatar' => 'nullable|url|max:255',
+            'municipio_id' => 'nullable|exists:municipio,id',
+            'deporteFavorito' => 'nullable|exists:deporte,nombre',
             'user_id' => 'required|exists:users,id',
         ];
     }

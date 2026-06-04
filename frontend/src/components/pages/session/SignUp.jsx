@@ -7,8 +7,9 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({ defaultValues: defaultDataSesion })
 
   const onSubmit = async (data) => {
@@ -39,6 +40,8 @@ const SignUp = () => {
                 {...register('name')}
                 type="text"
                 required
+                maxLength={255}
+                autoComplete="username"
                 placeholder="Introduce tu usuario."
                 className="min-h-11 rounded-xl border border-[#E5E7EB] bg-[#F5F6F8] px-4 text-sm text-[#1F1F1F] outline-none transition-colors duration-150 focus:border-[#AAED43]"
               />
@@ -50,6 +53,8 @@ const SignUp = () => {
                 {...register('email')}
                 type="email"
                 required
+                maxLength={255}
+                autoComplete="email"
                 placeholder="Introduce tu correo electrónico."
                 className="min-h-11 rounded-xl border border-[#E5E7EB] bg-[#F5F6F8] px-4 text-sm text-[#1F1F1F] outline-none transition-colors duration-150 focus:border-[#AAED43]"
               />
@@ -60,8 +65,13 @@ const SignUp = () => {
               <input
                 {...register('telefono')}
                 type="tel"
+                inputMode="numeric"
                 required
-                placeholder="Introduce tu teléfono."
+                pattern="[0-9]{9}"
+                maxLength={9}
+                title="Introduce exactamente 9 números."
+                autoComplete="tel"
+                placeholder="600123456"
                 className="min-h-11 rounded-xl border border-[#E5E7EB] bg-[#F5F6F8] px-4 text-sm text-[#1F1F1F] outline-none transition-colors duration-150 focus:border-[#AAED43]"
               />
             </label>
@@ -73,6 +83,8 @@ const SignUp = () => {
                 type="password"
                 required
                 minLength={6}
+                maxLength={255}
+                autoComplete="new-password"
                 placeholder="Introduce tu contraseña."
                 className="min-h-11 rounded-xl border border-[#E5E7EB] bg-[#F5F6F8] px-4 text-sm text-[#1F1F1F] outline-none transition-colors duration-150 focus:border-[#AAED43]"
               />
@@ -81,13 +93,22 @@ const SignUp = () => {
             <label className="grid gap-2 text-sm font-medium text-[#1F1F1F] md:col-span-2">
               Confirmar contraseña
               <input
-                {...register('password_verified')}
+                {...register('password_verified', {
+                  validate: (value) => value === getValues('password') || 'Las contraseñas no coinciden.',
+                })}
                 type="password"
                 required
                 minLength={6}
+                maxLength={255}
+                autoComplete="new-password"
                 placeholder="Repite tu contraseña."
                 className="min-h-11 rounded-xl border border-[#E5E7EB] bg-[#F5F6F8] px-4 text-sm text-[#1F1F1F] outline-none transition-colors duration-150 focus:border-[#AAED43]"
               />
+              {errors.password_verified && (
+                <span className="text-xs font-normal text-rose-700">
+                  {errors.password_verified.message}
+                </span>
+              )}
             </label>
           </div>
 

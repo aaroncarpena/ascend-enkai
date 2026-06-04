@@ -1,6 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
+const today = new Date().toLocaleDateString('en-CA')
+
 const initialForm = {
   deporte_id: '',
   instalacion_id: '',
@@ -23,7 +25,8 @@ const CreateMatchForm = ({
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    getValues,
+    formState: { errors, isSubmitting },
   } = useForm({ defaultValues: initialForm })
 
   return (
@@ -73,6 +76,7 @@ const CreateMatchForm = ({
           <input
             required
             type="date"
+            min={today}
             {...register('fecha')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
@@ -81,6 +85,7 @@ const CreateMatchForm = ({
         <label className="grid gap-2 text-sm font-medium text-slate-700">
           Nivel
           <select
+            required
             {...register('nivel')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           >
@@ -105,9 +110,14 @@ const CreateMatchForm = ({
           <input
             required
             type="time"
-            {...register('hora_fin')}
+            {...register('hora_fin', {
+              validate: (value) => value > getValues('hora_inicio') || 'La hora de fin debe ser posterior al inicio.',
+            })}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
+          {errors.hora_fin && (
+            <span className="text-xs font-normal text-rose-700">{errors.hora_fin.message}</span>
+          )}
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-slate-700">
@@ -117,6 +127,7 @@ const CreateMatchForm = ({
             type="number"
             min="2"
             max="50"
+            step="1"
             {...register('max_jugadores')}
             className="min-h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
@@ -126,6 +137,7 @@ const CreateMatchForm = ({
           Descripción
           <textarea
             rows="3"
+            maxLength={500}
             {...register('descripcion')}
             className="resize-none rounded-xl border border-slate-200 px-3 py-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />

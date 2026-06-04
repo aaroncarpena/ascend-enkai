@@ -41,16 +41,16 @@ class UserApiController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('users', 'name')->ignore($user->id)],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'telefono' => ['nullable', 'string', 'max:20'],
+            'telefono' => ['required', 'regex:/^[0-9]{9}$/'],
             'avatar' => ['nullable', 'url', 'max:255'],
             'municipio_id' => ['nullable', 'exists:municipio,id'],
-            'deporteFavorito' => ['nullable', 'string', 'max:100'],
+            'deporteFavorito' => ['nullable', Rule::exists('deporte', 'nombre')],
         ]);
 
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'telefono' => $validated['telefono'] ?? null,
+            'telefono' => $validated['telefono'],
         ]);
 
         $municipio = null;

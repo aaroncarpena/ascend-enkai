@@ -6,27 +6,24 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LoginUserApiRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            'login' => 'required|string',
-            'password' => 'required|string|min:6',
+            'login' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'El correo debe ser una dirección válida.',
-            'email.exists' => 'No existe un usuario con ese correo.',
+            'login.required' => 'El usuario o correo electrónico es obligatorio.',
             'password.required' => 'La contraseña es obligatoria.',
-            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
         ];
     }
 }

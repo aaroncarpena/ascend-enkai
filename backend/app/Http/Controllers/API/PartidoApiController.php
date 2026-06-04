@@ -8,6 +8,7 @@ use App\Models\Instalacion;
 use App\Models\Partido;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PartidoApiController extends Controller
 {
@@ -49,12 +50,12 @@ class PartidoApiController extends Controller
         $validated = $request->validate([
             'deporte_id' => 'required|exists:deporte,id',
             'instalacion_id' => 'required|exists:instalacion,id',
-            'fecha' => 'required|date',
+            'fecha' => 'required|date|after_or_equal:today',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
             'max_jugadores' => 'required|integer|min:2|max:50',
             'descripcion' => 'nullable|string|max:500',
-            'nivel' => 'nullable|string|max:50',
+            'nivel' => ['required', Rule::in(['Principiante', 'Intermedio', 'Avanzado'])],
         ]);
 
         $partido = Partido::create([

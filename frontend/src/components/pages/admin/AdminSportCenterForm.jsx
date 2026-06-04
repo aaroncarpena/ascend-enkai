@@ -5,7 +5,6 @@ const emptyForm = {
   nombre: '',
   direccion: '',
   municipio_id: '',
-  precio: '0',
   horario_apertura: '',
   horario_clausura: '',
 }
@@ -19,7 +18,6 @@ const toForm = (center) => {
     nombre: center.nombre || '',
     direccion: center.direccion || '',
     municipio_id: center.municipio_id ? String(center.municipio_id) : '',
-    precio: center.precio ?? '0',
     horario_apertura: center.horario_apertura?.slice(0, 5) || '',
     horario_clausura: center.horario_clausura?.slice(0, 5) || '',
   }
@@ -29,8 +27,9 @@ const AdminSportCenterForm = ({ center, municipios, onSubmit, onCancel }) => {
   const {
     register,
     handleSubmit,
+    getValues,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({ defaultValues: toForm(center) })
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const AdminSportCenterForm = ({ center, municipios, onSubmit, onCancel }) => {
     return onSubmit({
       ...data,
       municipio_id: Number(data.municipio_id),
-      precio: Number(data.precio),
     })
   }
 
@@ -57,6 +55,7 @@ const AdminSportCenterForm = ({ center, municipios, onSubmit, onCancel }) => {
           <input
             {...register('nombre')}
             required
+            maxLength={150}
             className="min-h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-[#AAED43]"
           />
         </label>
@@ -83,23 +82,12 @@ const AdminSportCenterForm = ({ center, municipios, onSubmit, onCancel }) => {
           <input
             {...register('direccion')}
             required
+            maxLength={255}
             className="min-h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-[#AAED43]"
           />
         </label>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Precio
-          <input
-            {...register('precio')}
-            type="number"
-            min="0"
-            step="0.01"
-            required
-            className="min-h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-[#AAED43]"
-          />
-        </label>
-
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2 md:col-span-2">
           <label className="grid gap-2 text-sm font-medium text-slate-700">
             Apertura
             <input
@@ -113,11 +101,18 @@ const AdminSportCenterForm = ({ center, municipios, onSubmit, onCancel }) => {
           <label className="grid gap-2 text-sm font-medium text-slate-700">
             Cierre
             <input
-              {...register('horario_clausura')}
+              {...register('horario_clausura', {
+                validate: (value) => value !== getValues('horario_apertura') || 'Apertura y cierre no pueden ser iguales.',
+              })}
               type="time"
               required
               className="min-h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-[#AAED43]"
             />
+            {errors.horario_clausura && (
+              <span className="text-xs font-normal text-rose-700">
+                {errors.horario_clausura.message}
+              </span>
+            )}
           </label>
         </div>
       </div>

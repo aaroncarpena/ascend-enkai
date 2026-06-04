@@ -36,12 +36,12 @@ const LoginForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
           <div>
             <label htmlFor='login' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Usuario o correo electrónico</label>
-            <input {...register('login')} type='text' id='login' placeholder='Introduce tu usuario o correo electrónico.' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
+            <input {...register('login')} type='text' id='login' required maxLength={255} autoComplete='username' placeholder='Introduce tu usuario o correo electrónico.' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
           <div>
             <label htmlFor='password' className='mb-2 block text-sm font-medium text-[#1F1F1F]'>Contraseña</label>
-            <input {...register('password')} type='password' id='password' placeholder='Introduce tu contraseña.' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
+            <input {...register('password')} type='password' id='password' required maxLength={255} autoComplete='current-password' placeholder='Introduce tu contraseña.' className='bg-[#F5F6F8] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#1F1F1F] placeholder-[#6B7280] outline-none focus:border-[#AAED43] transition-colors duration-150' />
           </div>
 
           <button type='submit' disabled={isSubmitting} className='w-full rounded-2xl bg-[#AAED43] px-4 py-3 text-sm font-semibold text-[#1a2e00] transition-colors duration-150 hover:bg-[#1F1F1F] hover:text-[#AAED43] disabled:opacity-60 disabled:cursor-not-allowed'>

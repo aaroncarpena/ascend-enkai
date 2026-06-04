@@ -10,7 +10,7 @@ const sections = [
   },
   {
     title: 'Instalaciones',
-    description: 'Crea instalaciones y actualiza sus datos, horarios o precios.',
+    description: 'Crea instalaciones y actualiza sus datos y horarios.',
     icon: 'pi pi-building',
     to: '/admin/instalaciones',
   },

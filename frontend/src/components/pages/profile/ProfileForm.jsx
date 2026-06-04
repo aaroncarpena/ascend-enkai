@@ -50,6 +50,8 @@ const ProfileForm = ({ profile, municipios, sports, uploadingAvatar, onAvatarUpl
           <input
             required
             type="text"
+            maxLength={255}
+            autoComplete="username"
             {...register('name')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
@@ -60,6 +62,8 @@ const ProfileForm = ({ profile, municipios, sports, uploadingAvatar, onAvatarUpl
           <input
             required
             type="email"
+            maxLength={255}
+            autoComplete="email"
             {...register('email')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />
@@ -69,6 +73,12 @@ const ProfileForm = ({ profile, municipios, sports, uploadingAvatar, onAvatarUpl
           Teléfono
           <input
             type="tel"
+            inputMode="numeric"
+            required
+            pattern="[0-9]{9}"
+            maxLength={9}
+            title="Introduce exactamente 9 números."
+            autoComplete="tel"
             {...register('telefono')}
             className="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-[#AAED43]"
           />

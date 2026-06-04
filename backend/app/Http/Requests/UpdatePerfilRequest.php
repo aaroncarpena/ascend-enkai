@@ -14,9 +14,9 @@ class UpdatePerfilRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'sometimes|url',
-            'municipio_id' => 'sometimes|exists:municipio,id',
-            'deporteFavorito' => 'sometimes|string|max:100',
+            'avatar' => 'sometimes|nullable|url|max:255',
+            'municipio_id' => 'sometimes|nullable|exists:municipio,id',
+            'deporteFavorito' => 'sometimes|nullable|exists:deporte,nombre',
         ];
     }
 }

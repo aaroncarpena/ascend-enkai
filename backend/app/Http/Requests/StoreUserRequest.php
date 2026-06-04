@@ -14,9 +14,10 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:6|max:255|confirmed',
+            'telefono' => ['required', 'regex:/^[0-9]{9}$/'],
         ];
     }
 }

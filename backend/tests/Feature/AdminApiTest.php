@@ -72,14 +72,20 @@ class AdminApiTest extends TestCase
         $payload = [
             'nombre' => 'Centro de prueba',
             'direccion' => 'Calle Prueba 1',
-            'precio' => 10,
             'municipio_id' => $municipio->id,
             'horario_apertura' => '08:00',
-            'horario_clausura' => '22:00',
+            'horario_clausura' => '08:00',
         ];
+
+        $this->postJson('/api/admin/instalaciones', $payload)
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('horario_clausura');
+
+        $payload['horario_clausura'] = '00:00';
 
         $created = $this->postJson('/api/admin/instalaciones', $payload)
             ->assertCreated()
+            ->assertJsonFragment(['precio' => 0])
             ->json();
 
         $payload['nombre'] = 'Centro actualizado';
@@ -108,5 +114,44 @@ class AdminApiTest extends TestCase
             'email' => 'nuevo@example.com',
             'rol' => User::ROLE_USER,
         ]);
+    }
+
+    public function test_phone_number_must_contain_exactly_nine_digits(): void
+    {
+        $payload = [
+            'name' => 'telefono_invalido',
+            'email' => 'telefono@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'telefono' => '12345678',
+        ];
+
+        $this->postJson('/api/register', $payload)
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('telefono');
+
+        $payload['telefono'] = '612345678';
+
+        $this->postJson('/api/register', $payload)->assertCreated();
+    }
+
+    public function test_profile_requires_a_nine_digit_phone_number(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $payload = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'telefono' => '12345678',
+        ];
+
+        $this->putJson('/api/perfil', $payload)
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('telefono');
+
+        $payload['telefono'] = '612345678';
+
+        $this->putJson('/api/perfil', $payload)->assertOk();
     }
 }
