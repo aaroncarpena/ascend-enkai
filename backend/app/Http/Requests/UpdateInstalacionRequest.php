@@ -14,10 +14,12 @@ class UpdateInstalacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'sometimes|string|max:150',
-            'direccion' => 'sometimes|string|max:255',
-            'precio' => 'sometimes|numeric|decimal:2',
-            'municipio_id' => 'sometimes|exists:municipio,id',
+            'nombre' => 'required|string|max:150',
+            'direccion' => 'required|string|max:255',
+            'precio' => 'required|numeric|min:0',
+            'municipio_id' => 'required|exists:municipio,id',
+            'horario_apertura' => 'required|date_format:H:i',
+            'horario_clausura' => 'required|date_format:H:i|after:horario_apertura',
         ];
     }
 }

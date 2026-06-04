@@ -11,14 +11,6 @@ const AuthProvider = ({ children }) => {
     password: '',
     password_verified: '',
     telefono: '',
-    account_type: 'user',
-    installation: {
-      nombre: '',
-      direccion: '',
-      municipio_id: '',
-      horario_apertura: '',
-      horario_clausura: '',
-    },
   }
 
   const session = useSession()

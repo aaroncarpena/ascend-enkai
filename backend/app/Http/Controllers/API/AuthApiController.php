@@ -4,148 +4,44 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserApiRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Instalacion;
-use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
 class AuthApiController extends Controller
 {
     public function register(Request $request)
     {
-        try {
-            \Log::info('=== INICIO REGISTRO ===');
-            \Log::info('Datos recibidos:', $request->all());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'telefono' => 'required|string|max:20',
+        ]);
 
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|unique:users',
-                'password' => 'required|string|min:6|confirmed',
-                'telefono' => 'required|string|max:20',
-                'account_type' => 'required|in:user,instalacion',
-                'installation.nombre' => 'required_if:account_type,instalacion|string|max:255',
-                'installation.direccion' => 'required_if:account_type,instalacion|string|max:255',
-                'installation.municipio_id' => 'required_if:account_type,instalacion|nullable|exists:municipio,id',
-                'installation.horario_apertura' => 'required_if:account_type,instalacion|nullable|date_format:H:i',
-                'installation.horario_clausura' => 'required_if:account_type,instalacion|nullable|date_format:H:i|after:installation.horario_apertura',
-            ]);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'telefono' => $validated['telefono'],
+        ]);
 
-            \Log::info('Validación exitosa');
+        $user->perfil()->create([
+            'avatar' => $this->defaultAvatar($user->name),
+        ]);
 
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'telefono' => $validated['telefono'],
-                'account_type' => $validated['account_type'],
-            ]);
-
-            $user->perfil()->create([
-                'avatar' => $this->defaultAvatar($user->name),
-            ]);
-
-            if ($validated['account_type'] === 'instalacion') {
-                Instalacion::create([
-                    'user_id' => $user->id,
-                    'municipio_id' => $validated['installation']['municipio_id'],
-                    'nombre' => $validated['installation']['nombre'],
-                    'direccion' => $validated['installation']['direccion'],
-                    'precio' => 0,
-                    'horario_apertura' => $validated['installation']['horario_apertura'],
-                    'horario_clausura' => $validated['installation']['horario_clausura'],
-                ]);
-            }
-
-            \Log::info('Usuario creado con ID:', ['user_id' => $user->id]);
-
-            // Debug: Verificar que HasApiTokens esté funcionando
-            if (!method_exists($user, 'createToken')) {
-                \Log::error('El modelo User NO tiene el método createToken');
-                return response()->json([
-                    'message' => 'Error: HasApiTokens no está configurado correctamente',
-                ], 500);
-            }
-
-            \Log::info('Método createToken disponible');
-
-            if (!\Schema::hasTable('personal_access_tokens')) {
-                \Log::error('La tabla personal_access_tokens NO existe');
-                return response()->json([
-                    'message' => 'Error: Tabla personal_access_tokens no existe',
-                ], 500);
-            }
-
-            \Log::info('Tabla personal_access_tokens existe');
-
-            // Generamos el token de Sanctum
-            $tokenResult = $user->createToken('auth_token');
-            $token = $tokenResult->plainTextToken;
-
-            \Log::info('Token generado:', [
-                'token_id' => $tokenResult->accessToken->id ?? 'N/A',
-                'token_preview' => substr($token, 0, 20) . '...',
-                'token_length' => strlen($token)
-            ]);
-
-            $tokenCount = $user->tokens()->count();
-            \Log::info('Tokens del usuario en BD:', ['count' => $tokenCount]);
-
-            $response = [
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-                'user' => $user->load('perfil', 'instalaciones'),
-                'debug' => [
-                    'user_id' => $user->id,
-                    'token_length' => strlen($token),
-                    'tokens_count' => $tokenCount
-                ]
-            ];
-
-            \Log::info('=== REGISTRO EXITOSO ===', [
-                'user_id' => $user->id,
-                'token_length' => strlen($token)
-            ]);
-
-            return response()->json($response, 201);
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Error de validación:', $e->errors());
-            return response()->json([
-                'message' => 'La validación ha fallado.',
-                'errors' => $e->errors(),
-            ], 422);
-        } catch (\Illuminate\Database\QueryException $e) {
-            \Log::error('Error de base de datos:', [
-                'message' => $e->getMessage(),
-                'sql' => $e->getSql() ?? 'N/A'
-            ]);
-            return response()->json([
-                'message' => 'Error de base de datos.',
-                'error' => $e->getMessage(),
-            ], 500);
-        } catch (\Exception $e) {
-            \Log::error('Error inesperado:', [
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ]);
-            return response()->json([
-                'message' => 'Ha ocurrido un error inesperado.',
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ], 500);
-        }
+        return response()->json([
+            'access_token' => $user->createToken('auth_token')->plainTextToken,
+            'token_type' => 'Bearer',
+            'user' => $user->load('perfil'),
+        ], 201);
     }
 
     public function login(LoginUserApiRequest $request)
     {
         $credentials = $request->validated();
-
-        // Verificar si el valor introducido es email o username
         $field = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-
         $user = User::where($field, $credentials['login'])->first();
 
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
@@ -154,43 +50,20 @@ class AuthApiController extends Controller
             ]);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
-            'access_token' => $token,
+            'access_token' => $user->createToken('auth_token')->plainTextToken,
             'token_type' => 'Bearer',
-            'user' => $user->load('perfil', 'instalaciones')
+            'user' => $user->load('perfil'),
         ]);
     }
 
     public function logout(Request $request)
     {
-        try {
-            $user = $request->user();
-            if (!$user) {
-                return response()->json([
-                    'message' => 'Usuario no autenticado.',
-                ], 401);
-            }
+        $request->user()->currentAccessToken()?->delete();
 
-            $token = $user->currentAccessToken();
-            if (!$token) {
-                return response()->json([
-                    'message' => 'Token no encontrado.',
-                ], 401);
-            }
-
-            $token->delete();
-
-            return response()->json([
-                'message' => 'Sesión cerrada correctamente.',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error al cerrar sesión.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'message' => 'Sesión cerrada correctamente.',
+        ]);
     }
 
     private function defaultAvatar(string $name): string

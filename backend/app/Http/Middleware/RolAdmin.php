@@ -8,16 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RolAdmin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check() && auth()->user()->rol !== 'admin'){
-            abort(403, 'No tienes permisos para acceder a está página');
+        if (! $request->user()?->isAdmin()) {
+            return response()->json([
+                'message' => 'No tienes permisos para acceder a esta página.',
+            ], 403);
         }
+
         return $next($request);
     }
 }

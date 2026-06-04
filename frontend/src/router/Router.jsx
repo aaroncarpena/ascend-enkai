@@ -7,8 +7,13 @@ import HomePage from '../components/pages/homePage/HomePage.jsx'
 import Error from '../components/pages/error/Error.jsx'
 import SignUp from '../components/pages/session/SignUp.jsx'
 import MatchPage from '../components/pages/match/MatchPage.jsx'
+import MyMatchesPage from '../components/pages/match/MyMatchesPage.jsx'
 import ProfilePage from '../components/pages/profile/ProfilePage.jsx'
 import SportCenterMatchesPage from '../components/pages/sportCenters/SportCenterMatchesPage.jsx'
+import AdminPage from '../components/pages/admin/AdminPage.jsx'
+import AdminRoute from '../components/pages/admin/AdminRoute.jsx'
+import AdminSportCentersPage from '../components/pages/admin/AdminSportCentersPage.jsx'
+import AdminUsersPage from '../components/pages/admin/AdminUsersPage.jsx'
 
 const Router = () => {
   return (
@@ -20,7 +25,13 @@ const Router = () => {
         <Route path="/instalacion/:sportCenterId" element={<SportCenterMatchesPage />} />
         <Route path="/deportes" element={<SportsPage />}/>
         <Route path="/deportes/:sportId" element={<MatchPage />} />
+        <Route path="/mis-partidos" element={<MyMatchesPage />} />
         <Route path="/perfil" element={<ProfilePage />} />
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route index element={<AdminPage />} />
+          <Route path="usuarios" element={<AdminUsersPage />} />
+          <Route path="instalaciones" element={<AdminSportCentersPage />} />
+        </Route>
         <Route path='/*' element={<Error />} />
     </Routes>
   )

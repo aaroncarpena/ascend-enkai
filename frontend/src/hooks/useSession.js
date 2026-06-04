@@ -15,7 +15,7 @@ const useSession = () => {
     setError('')
   }
 
-  const register = async ({ name, email, password, password_verified, telefono, account_type, installation }) => {
+  const register = async ({ name, email, password, password_verified, telefono }) => {
     try {
       setError('')
       const response = await post('register', {
@@ -24,8 +24,6 @@ const useSession = () => {
         password,
         password_confirmation: password_verified,
         telefono,
-        account_type,
-        installation,
       })
       setToken(response.access_token)
       setUser(response.user)

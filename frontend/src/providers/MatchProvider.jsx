@@ -25,11 +25,14 @@ const clearSportFromFilters = (filters) => ({
 
 const MatchProvider = ({ children }) => {
   const [matches, setMatches] = useState([])
+  const [myMatches, setMyMatches] = useState([])
   const [filters, setFilters] = useState(defaultFilters)
   const filtersRef = useRef(defaultFilters)
   const currentListRef = useRef({ type: 'sport', id: null })
   const [loading, setLoading] = useState(false)
+  const [myMatchesLoading, setMyMatchesLoading] = useState(false)
   const [error, setError] = useState('')
+  const [myMatchesError, setMyMatchesError] = useState('')
   const { token, user, isAuthenticated } = useAuthProvider()
   const notification = useNotification()
 
@@ -120,6 +123,26 @@ const MatchProvider = ({ children }) => {
     [fetchMatches],
   )
 
+  const fetchMyMatches = useCallback(async () => {
+    if (!isAuthenticated || !token) {
+      setMyMatches([])
+      return
+    }
+
+    setMyMatchesLoading(true)
+    setMyMatchesError('')
+
+    try {
+      const response = await get('mis-partidos', token)
+      setMyMatches(getApiCollection(response))
+    } catch (err) {
+      console.error('Error al cargar mis partidos:', err)
+      setMyMatchesError('No se pudieron cargar tus partidos.')
+    } finally {
+      setMyMatchesLoading(false)
+    }
+  }, [isAuthenticated, token])
+
   const runProtectedAction = async (action) => {
     if (!isAuthenticated || !token) {
       const message = 'Inicia sesion para realizar esta accion.'
@@ -153,6 +176,7 @@ const MatchProvider = ({ children }) => {
       )
 
       await fetchMatches(sportId)
+      await fetchMyMatches()
       notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
       return true
     })
@@ -172,6 +196,7 @@ const MatchProvider = ({ children }) => {
       )
 
       await fetchMatchesBySportCenter(sportCenterId)
+      await fetchMyMatches()
       notification.success('Tu partido se ha creado correctamente.', 'Partido creado')
       return true
     })
@@ -181,6 +206,7 @@ const MatchProvider = ({ children }) => {
     await runProtectedAction(async () => {
       await post(`partidos/${matchId}/unirse`, {}, token)
       await refreshCurrentMatches(listId)
+      await fetchMyMatches()
       notification.success('Te has unido al partido.', 'Asistencia confirmada')
     })
   }
@@ -189,6 +215,7 @@ const MatchProvider = ({ children }) => {
     await runProtectedAction(async () => {
       const response = await del(`partidos/${matchId}/unirse`, token)
       await refreshCurrentMatches(listId)
+      await fetchMyMatches()
       notification.info(
         response?.message || 'Te has desapuntado del partido.',
         'Asistencia cancelada',
@@ -198,12 +225,16 @@ const MatchProvider = ({ children }) => {
 
   const value = {
     matches,
+    myMatches,
     filters,
     loading,
+    myMatchesLoading,
     error,
+    myMatchesError,
     user,
     fetchMatches,
     fetchMatchesBySportCenter,
+    fetchMyMatches,
     updateFilters,
     updateSportCenterFilters,
     resetFilters,

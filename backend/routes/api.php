@@ -55,16 +55,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/reserva', [ReservaApiController::class, 'store']);
 
     Route::middleware(RolAdmin::class)->group(function () {
-
-        Route::get('/users', [UserApiController::class, 'index']);
-        Route::delete('/users/{id}', [UserApiController::class, 'destroy']);
-
         Route::post('/deportes', [DeporteApiController::class, 'store']);
         Route::put('/deportes/{id}', [DeporteApiController::class, 'update']);
         Route::delete('/deportes/{id}', [DeporteApiController::class, 'destroy']);
 
-        Route::post('/instalacion', [InstalacionApiController::class, 'store']);
-        Route::put('/instalacion/{id}', [InstalacionApiController::class, 'update']);
-        Route::delete('/instalacion/{id}', [InstalacionApiController::class, 'destroy']);
+        Route::prefix('admin')->group(function () {
+            Route::get('/users', [UserApiController::class, 'index']);
+            Route::delete('/users/{user}', [UserApiController::class, 'destroy']);
+
+            Route::get('/instalaciones', [InstalacionApiController::class, 'adminIndex']);
+            Route::post('/instalaciones', [InstalacionApiController::class, 'store']);
+            Route::put('/instalaciones/{instalacion}', [InstalacionApiController::class, 'update']);
+            Route::delete('/instalaciones/{instalacion}', [InstalacionApiController::class, 'destroy']);
+        });
     });
 });

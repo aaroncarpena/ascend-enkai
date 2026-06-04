@@ -45,6 +45,11 @@ const Nav = () => {
             Instalaciones
           </Link>
 
+          {user && (
+            <Link className="text-sm text-[#1F1F1F] no-underline transition-colors duration-150 hover:text-[#AAED43]" to="/mis-partidos">
+              Mis partidos
+            </Link>
+          )}
         </div>
 
         {user ? (
@@ -70,6 +75,15 @@ const Nav = () => {
 
             {menuOpen && (
               <div className="absolute right-0 top-12 z-50 min-w-44 rounded-xl border border-slate-200 bg-white p-2 text-left shadow-lg">
+                {user.rol === 'admin' && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex min-h-10 items-center rounded-lg px-3 text-sm font-medium text-slate-700 no-underline transition hover:bg-slate-50"
+                  >
+                    Panel de control
+                  </Link>
+                )}
                 <Link
                   to="/perfil"
                   onClick={() => setMenuOpen(false)}

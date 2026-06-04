@@ -8,6 +8,7 @@ use App\Models\Perfil;
 use App\Models\User;
 use App\Models\Deporte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -15,7 +16,10 @@ class UserApiController extends Controller
 {
     public function index()
     {
-        return User::all();
+        return User::query()
+            ->select('id', 'name', 'email', 'telefono', 'rol', 'created_at')
+            ->orderBy('name')
+            ->get();
     }
 
     public function show($id)
@@ -101,10 +105,24 @@ class UserApiController extends Controller
         return $user;
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, User $user)
     {
-        User::findOrFail($id)->delete();
-        return response()->json(['message' => 'Usuario eliminado']);
+        if ($request->user()->is($user)) {
+            return response()->json([
+                'message' => 'No puedes eliminar tu propia cuenta de administrador.',
+            ], 422);
+        }
+
+        DB::transaction(function () use ($user) {
+            DB::table('user_amigos')
+                ->where('solicitante_id', $user->id)
+                ->orWhere('receptor_id', $user->id)
+                ->delete();
+
+            $user->delete();
+        });
+
+        return response()->json(['message' => 'Usuario eliminado.']);
     }
 
     public function addDeporte($userId, $deporteId)

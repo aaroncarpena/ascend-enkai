@@ -16,8 +16,11 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
 
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_USER = 'user';
+
     protected $fillable = [
-        'name', 'email', 'password', 'telefono', 'rol', 'account_type'
+        'name', 'email', 'password', 'telefono'
     ];
 
     protected $hidden = [
@@ -67,6 +70,11 @@ class User extends Authenticatable
     public function tokens()
     {
         return $this->morphMany(PersonalAccessToken::class, 'tokenable');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->rol === self::ROLE_ADMIN;
     }
 
 }
