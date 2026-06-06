@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthProvider from '../../../hooks/useAuthProvider'
 import { getInitial } from '../../../lib/utils.js'
+import logo from '../../../assets/ascend-enkai-logo.png'
 
 const Nav = () => {
   const { user, logout } = useAuthProvider()
@@ -9,6 +10,11 @@ const Nav = () => {
   const menuRef = useRef(null)
   const navigate = useNavigate()
   const avatar = user?.perfil?.avatar
+  const navLinkClass = [
+    'shrink-0 rounded-lg px-2 py-1.5 text-xs font-medium text-[#1F1F1F] no-underline',
+    'transition-colors duration-150 hover:bg-white hover:text-[#6ca719]',
+    'sm:px-0 sm:py-0 sm:text-sm sm:font-normal sm:hover:bg-transparent sm:hover:text-[#AAED43]',
+  ].join(' ')
 
   useEffect(() => {
     const closeMenu = (event) => {
@@ -29,24 +35,29 @@ const Nav = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#E5E7EB] bg-[#F5F6F8]">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex min-h-14 max-w-6xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-2 sm:h-14 sm:flex-nowrap sm:px-6 sm:py-0">
         <Link
           to="/"
-          className="font-semibold tracking-tight text-[#1F1F1F] no-underline transition-colors duration-150 hover:text-[#AAED43]"
+          className="flex shrink-0 items-center no-underline"
+          aria-label="Ascend-Enkai"
         >
-          Pachangas
+          <img
+            src={logo}
+            alt="Ascend-Enkai"
+            className="h-12 w-auto max-w-[92px] object-contain sm:h-[52px] sm:max-w-[104px]"
+          />
         </Link>
 
-        <div className="flex items-center gap-8">
-          <Link className="text-sm text-[#1F1F1F] no-underline transition-colors duration-150 hover:text-[#AAED43]" to="/deportes">
+        <div className="order-3 flex w-full items-center justify-center gap-2 overflow-x-auto whitespace-nowrap sm:order-none sm:w-auto sm:justify-start sm:gap-8 sm:overflow-visible">
+          <Link className={navLinkClass} to="/deportes">
             Deportes
           </Link>
-          <Link className="text-sm text-[#1F1F1F] no-underline transition-colors duration-150 hover:text-[#AAED43]" to="/instalaciones">
+          <Link className={navLinkClass} to="/instalaciones">
             Instalaciones
           </Link>
 
           {user && (
-            <Link className="text-sm text-[#1F1F1F] no-underline transition-colors duration-150 hover:text-[#AAED43]" to="/mis-partidos">
+            <Link className={navLinkClass} to="/mis-partidos">
               Mis partidos
             </Link>
           )}
@@ -103,7 +114,7 @@ const Nav = () => {
           </div>
         ) : (
           <Link
-            className="rounded-lg bg-[#AAED43] px-4 py-1.5 text-sm font-medium text-[#1a2e00] no-underline transition-colors duration-150 hover:bg-[#1F1F1F] hover:text-[#AAED43]"
+            className="shrink-0 rounded-lg bg-[#AAED43] px-3 py-1.5 text-xs font-medium text-[#1a2e00] no-underline transition-colors duration-150 hover:bg-[#1F1F1F] hover:text-[#AAED43] sm:px-4 sm:text-sm"
             to="/login"
           >
             Iniciar sesión

@@ -16,7 +16,7 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     try {
       await login(data)
-      navigate('/')
+      navigate('/', { replace: true })
     } catch (e) {
       console.error('Login fallido:', e)
     }

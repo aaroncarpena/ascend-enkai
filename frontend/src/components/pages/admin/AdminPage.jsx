@@ -37,7 +37,7 @@ const AdminPage = () => {
                 className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left text-slate-900 no-underline transition hover:-translate-y-1 hover:border-[#AAED43] hover:bg-white hover:shadow-md"
               >
                 <i className={`${section.icon} text-2xl text-[#6ca719]`} aria-hidden="true" />
-                <h2 className="mt-5 text-xl font-semibold">{section.title}</h2>
+                <h2 className="mt-5 text-xl font-semibold text-slate-950">{section.title}</h2>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{section.description}</p>
               </Link>
             ))}

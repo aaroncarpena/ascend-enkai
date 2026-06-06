@@ -1,9 +1,11 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import useAuthProvider from '../../../hooks/useAuthProvider.js'
 
 const SignUp = () => {
   const { defaultDataSesion, register: registerUser, error } = useAuthProvider()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -16,6 +18,7 @@ const SignUp = () => {
     try {
       await registerUser(data)
       reset(defaultDataSesion)
+      navigate('/', { replace: true })
     } catch (e) {
       console.error('Registro fallido:', e)
     }
