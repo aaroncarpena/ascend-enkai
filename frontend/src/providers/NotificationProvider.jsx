@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useMemo, useState } from 'react'
 
 const NotificationContext = createContext()
+let fallbackNotificationId = 0
 
 const styles = {
   success: {
@@ -17,6 +18,15 @@ const styles = {
   },
 }
 
+const createNotificationId = () => {
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID()
+  }
+
+  fallbackNotificationId += 1
+  return `notification-${Date.now()}-${fallbackNotificationId}`
+}
+
 const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([])
 
@@ -26,7 +36,7 @@ const NotificationProvider = ({ children }) => {
 
   const notify = useCallback(
     ({ type = 'info', title, message, duration = 3500 }) => {
-      const id = crypto.randomUUID()
+      const id = createNotificationId()
       setNotifications((current) => [
         ...current,
         { id, type, title, message },
